@@ -1,0 +1,58 @@
+﻿<Controls:MetroWindow x:Class="MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Steam_UWP_Shortcuts"
+        
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+                      
+        mc:Ignorable="d"
+        Title="Steam UWP Shortcuts" MinHeight="360" Width="510" Loaded="Window_Loaded" 
+        TitleCaps="False" WindowStartupLocation="CenterScreen" Icon="Imagenes/steam-256.png" 
+        ShowIconOnTitleBar="False" ShowMaxRestoreButton="False" BorderThickness="1" 
+        BorderBrush="Purple" ResizeMode="NoResize">
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="gridLista" Grid.Row="0" Visibility="Collapsed">
+            <ListView x:Name="lvApps" HorizontalContentAlignment="Stretch" BorderThickness="0" Background="Transparent" ScrollViewer.VerticalScrollBarVisibility="Visible" />
+        </Grid>
+
+        <Grid x:Name="gridCarga" Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Controls:ProgressRing Foreground="{DynamicResource AccentColorBrush}" Grid.Row="0" VerticalAlignment="Bottom"/>
+            <TextBlock Grid.Row="1" FontSize="15" Text="Searching Apps" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,20,0,0"/>
+        </Grid>
+
+        <Grid x:Name="gridNoApps" Grid.Row="0" Visibility="Collapsed">
+            <TextBlock FontSize="15" Text="No Apps Detected" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </Grid>
+
+        <Grid x:Name="gridGreenlight" Grid.Row="1" Margin="10,20,10,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="Vote me:" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="15" Margin="0,0,10,0"/>
+            <Button x:Name="buttonGreenlight" Grid.Column="1" Background="Transparent" Height="51" Padding="0" HorizontalAlignment="Left">
+                <Image Source="Imagenes/Greenlight_button_small.png" />
+            </Button>
+        </Grid>
+
+        <Grid x:Name="gridPermisos" Grid.Row="1" Margin="10,20,10,0" Background="#FFA80000" Visibility="Collapsed">
+            <TextBlock x:Name="tbPermisos" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" Padding="10"/>
+        </Grid>
+    </Grid>
+</Controls:MetroWindow>
