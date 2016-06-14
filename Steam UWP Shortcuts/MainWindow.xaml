@@ -19,6 +19,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <Grid x:Name="gridLista" Grid.Row="0" Visibility="Collapsed">
@@ -54,5 +55,9 @@
         <Grid x:Name="gridPermisos" Grid.Row="1" Margin="10,20,10,0" Background="#FFA80000" Visibility="Collapsed">
             <TextBlock x:Name="tbPermisos" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" Padding="10"/>
         </Grid>
-    </Grid>
+
+        <Grid x:Name="gridCreditos" Grid.Row="2" Margin="10,10,10,0">
+            <TextBlock x:Name="tbCreditos" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5"/>
+        </Grid> 
+     </Grid>
 </Controls:MetroWindow>

@@ -1,6 +1,5 @@
 ﻿Imports System.ComponentModel
 Imports System.IO
-Imports System.Security.AccessControl
 Imports System.Text
 
 Class MainWindow
@@ -9,6 +8,8 @@ Class MainWindow
     Dim listaApps As List(Of Aplicacion)
 
     Private Sub Window_Loaded(sender As Object, e As RoutedEventArgs)
+
+        tbCreditos.Text = "Version " + My.Application.Info.Version.Major.ToString + "." + My.Application.Info.Version.Minor.ToString + " - pepeizqapps.com"
 
         If Not File.Exists(My.Application.Info.DirectoryPath + "\Config.ini") Then
             File.WriteAllText(My.Application.Info.DirectoryPath + "\Config.ini", "[Options]" + Environment.NewLine + "Greenlight=False")
@@ -120,9 +121,17 @@ Class MainWindow
 
     Private Function GenerarApps(listaApps As List(Of Aplicacion), unidad As String) As List(Of Aplicacion)
 
-        If Directory.Exists(unidad + "Program Files\WindowsApps") Then
+        Dim subCarpeta As String = Nothing
+
+        If unidad = "C:\" Then
+            subCarpeta = "Program Files\WindowsApps"
+        Else
+            subCarpeta = "WindowsApps"
+        End If
+
+        If Directory.Exists(unidad + subCarpeta) Then
             Try
-                For Each carpeta As String In Directory.GetDirectories(unidad + "Program Files\WindowsApps")
+                For Each carpeta As String In Directory.GetDirectories(unidad + subCarpeta)
                     Try
                         For Each fichero As String In Directory.GetFiles(carpeta)
                             If fichero.Contains("AppxManifest.xml") Then
@@ -176,29 +185,31 @@ Class MainWindow
                                                     temp10 = temp9.Remove(int10, temp9.Length - int10)
 
                                                     If temp10 = "ms-resource:AppStoreName" Then
-                                                        int8 = lineas.IndexOf("<PublisherDisplayName>")
-                                                        temp8 = lineas.Remove(0, int8)
+                                                        temp10 = TituloMicrosoft.Buscar(lineas)
+                                                    End If
 
-                                                        int9 = temp8.IndexOf(">")
-                                                        temp9 = temp8.Remove(0, int9 + 1)
+                                                    If temp10 = "ms-resource:StoreTitle" Then
+                                                        temp10 = TituloMicrosoft.Buscar(lineas)
+                                                    End If
 
-                                                        int10 = temp9.IndexOf("</PublisherDisplayName>")
-                                                        temp10 = temp9.Remove(int10, temp9.Length - int10)
+                                                    If temp10 = "ms-resource:ApplicationTitleWithBranding" Then
+                                                        temp10 = TituloMicrosoft.Buscar(lineas)
+                                                    End If
 
-                                                        If temp10 = "Microsoft Corporation" Then
-                                                            int8 = lineas.IndexOf("<Identity Name=")
-                                                            temp8 = lineas.Remove(0, int8)
+                                                    If temp10 = "ms-resource:///Resources/AppStoreName" Then
+                                                        temp10 = TituloMicrosoft.Buscar(lineas)
+                                                    End If
 
-                                                            int9 = temp8.IndexOf(Chr(34))
-                                                            temp9 = temp8.Remove(0, int9 + 1)
+                                                    If temp10 = "ms-resource:/MSWifiResources/AppStoreName" Then
+                                                        temp10 = TituloMicrosoft.Buscar(lineas)
+                                                    End If
 
-                                                            int10 = temp9.IndexOf(Chr(34))
-                                                            temp10 = temp9.Remove(int10, temp9.Length - int10)
+                                                    If temp10 = "ms-resource:IDS_MANIFEST_MUSIC_APP_NAME" Then
+                                                        temp10 = TituloMicrosoft.Buscar(lineas)
+                                                    End If
 
-                                                            temp10 = temp10.Replace("Microsoft.", Nothing)
-                                                            temp10 = temp10.Replace("Windows.", Nothing)
-                                                            temp10 = temp10.Replace("Windows", Nothing)
-                                                        End If
+                                                    If temp10 = "ms-resource:IDS_MANIFEST_VIDEO_APP_NAME" Then
+                                                        temp10 = TituloMicrosoft.Buscar(lineas)
                                                     End If
 
                                                     If Not temp10.Contains("ms-resource:") Then
@@ -245,7 +256,18 @@ Class MainWindow
                                                             temp13 = temp13.Insert(int14, ".scale-400")
                                                         End If
 
-                                                        listaApps.Add(New Aplicacion(temp10, "shell:AppsFolder\" + package + "!" + id, temp13))
+                                                        Dim tituloBool As Boolean = False
+                                                        Dim i As Integer = 0
+                                                        While i < listaApps.Count
+                                                            If listaApps(i).Nombre = temp10 Then
+                                                                tituloBool = True
+                                                            End If
+                                                            i += 1
+                                                        End While
+
+                                                        If tituloBool = False Then
+                                                            listaApps.Add(New Aplicacion(temp10, "shell:AppsFolder\" + package + "!" + id, temp13))
+                                                        End If
                                                     End If
                                                 End If
                                             Next
@@ -402,9 +424,11 @@ Class MainWindow
         Try
             Process.Start("http://steamcommunity.com/sharedfiles/filedetails/?id=700966331")
             FicherosINI.Escribir(My.Application.Info.DirectoryPath + "\Config.ini", "Options", "Greenlight", "True")
+            gridGreenlight.Visibility = Visibility.Collapsed
         Catch ex As Exception
 
         End Try
 
     End Sub
+
 End Class
