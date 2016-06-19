@@ -30,49 +30,37 @@
         </Grid.RowDefinitions>
 
         <Grid x:Name="gridListas" Grid.Row="0" Visibility="Collapsed">
-            <ListView x:Name="lvAppsUWP" HorizontalContentAlignment="Stretch" BorderThickness="0" Background="Transparent" ScrollViewer.VerticalScrollBarVisibility="Visible" />
-            <!--<dragablz:TabablzControl>
-                <TabItem x:Name="tiWindowsStore">
-                    <TabItem.Header>
-                        <Grid Margin="5,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-                            <Image Grid.Column="0" Source="Imagenes/windowsstore.png" Width="20" Height="20"/>
-                            <TextBlock Text="Windows Store" Grid.Column="1" FontSize="15" Foreground="White" Margin="5,0,0,0" VerticalAlignment="Center"/>
-                        </Grid>
-                    </TabItem.Header>
-
-                    <ListView x:Name="lvAppsUWP" HorizontalContentAlignment="Stretch" BorderThickness="0" Background="Transparent" ScrollViewer.VerticalScrollBarVisibility="Visible" />
-                </TabItem>
-                <TabItem x:Name="tiGOGGalaxy">
-                    <TabItem.Header>
-                        <Grid Margin="5,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-
-                            <Image Grid.Column="0" Source="Imagenes/goggalaxy.ico" Width="20" Height="20"/>
-                            <TextBlock Text="GOG Galaxy" Grid.Column="1" FontSize="15" Foreground="White" Margin="5,0,0,0" VerticalAlignment="Center"/>
-                        </Grid>
-                    </TabItem.Header>
-
-                    <ListView x:Name="lvAppsGalaxy" HorizontalContentAlignment="Stretch" BorderThickness="0" Background="Transparent" ScrollViewer.VerticalScrollBarVisibility="Visible" />
-                </TabItem>
-            </dragablz:TabablzControl>-->
+            <ListView x:Name="lvAppsUWP" Grid.Row="0" HorizontalContentAlignment="Stretch" BorderThickness="0,0,0,1" BorderBrush="Purple" Background="Transparent" ScrollViewer.VerticalScrollBarVisibility="Visible" />
+            <Button x:Name="botonCrearAccesosUWP" Grid.Row="1" Margin="0,15,0,5" Content="Create Shortcuts" HorizontalAlignment="Center" IsEnabled="False"/>
         </Grid>
 
         <Grid x:Name="gridCarga" Grid.Row="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Controls:ProgressRing Foreground="{DynamicResource AccentColorBrush}" Grid.Row="0" VerticalAlignment="Bottom"/>
-            <TextBlock Grid.Row="1" FontSize="15" Text="Searching Apps and Games" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,20,0,0"/>
+            <Grid Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Controls:ProgressRing Grid.Row="0" Foreground="{DynamicResource AccentColorBrush}"/>
+                <Grid Grid.Row="1" Margin="0,20,0,0" HorizontalAlignment="Center" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock x:Name="tbCarga" Grid.Column="0" FontSize="15"/>
+                    <ProgressBar x:Name="pbCarga" Grid.Column="1" Width="300" Height="8" Visibility="Collapsed" Margin="5,0,0,0"/>
+                </Grid>
+            </Grid>
         </Grid>
 
         <Grid x:Name="gridNoApps" Grid.Row="0" Visibility="Collapsed">
@@ -84,7 +72,13 @@
         </Grid>
 
         <Grid x:Name="gridCreditos" Grid.Row="2" Margin="10">
-            <TextBlock x:Name="tbCreditos" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <CheckBox x:Name="cbCategoriaSteam" Grid.Column="0" Content="Add Category in Steam" FontSize="15" VerticalAlignment="Center" Margin="5" VerticalContentAlignment="Center"/>
+            <TextBlock x:Name="tbCreditos" Grid.Column="1" FontSize="15" VerticalAlignment="Center" Margin="5"/>
         </Grid> 
      </Grid>
 </Controls:MetroWindow>

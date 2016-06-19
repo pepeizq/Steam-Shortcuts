@@ -16,8 +16,15 @@ Module WindowsStore
 
         If Directory.Exists(carpetaFinal) Then
             Try
+                Dim i As Integer = 0
+
+                bw.ReportProgress(0, unidad)
+
                 For Each carpeta As String In Directory.GetDirectories(carpetaFinal)
                     Try
+                        i += 1
+                        bw.ReportProgress(CInt((100 / (Directory.GetDirectories(carpetaFinal).Count)) * i))
+
                         For Each fichero As String In Directory.GetFiles(carpeta)
                             If fichero.Contains("AppxManifest.xml") Then
 
@@ -69,7 +76,7 @@ Module WindowsStore
                     End Try
                 Next
             Catch ex As Exception
-                bw.ReportProgress(0, carpetaFinal)
+                bw.ReportProgress(0, "/*ERROR*/" + carpetaFinal)
             End Try
         End If
 
@@ -82,7 +89,7 @@ Module WindowsStore
             For Each carpeta As String In Directory.GetDirectories(carpetaLocal)
                 If carpeta.Contains(identidad) Then
                     Dim int7 As Integer = carpeta.LastIndexOf("\")
-                    Dim package As String = carpeta.Remove(0, int7 + 1)
+                    Dim paquete As String = carpeta.Remove(0, int7 + 1)
 
                     Dim temp8, temp9, temp10 As String
                     Dim int8, int9, int10 As Integer
@@ -131,6 +138,12 @@ Module WindowsStore
                             colorFondo = Nothing
                         End If
 
+                        Dim categoria As String = Nothing
+
+                        If Not FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config.ini", "Options", "CategoryUWP") = Nothing Then
+                            categoria = FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config.ini", "Options", "CategoryUWP")
+                        End If
+
                         Dim tituloBool As Boolean = False
                         Dim i As Integer = 0
                         While i < listaApps.Count
@@ -141,7 +154,7 @@ Module WindowsStore
                         End While
 
                         If tituloBool = False Then
-                            listaApps.Add(New Aplicacion(nombre, "shell:AppsFolder\" + package + "!" + id, imagen, colorFondo))
+                            listaApps.Add(New Aplicacion(nombre, "shell:AppsFolder\" + paquete + "!" + id, imagen, colorFondo, False, categoria))
                         End If
                     End If
                 End If

@@ -74,15 +74,23 @@ Module Listado
 
                 '----------------------------------------------------
 
-                Dim boton As New Button
-                boton.Content = "Create"
-                boton.Tag = lista(i)
-                boton.HorizontalAlignment = HorizontalAlignment.Right
-                boton.Padding = New Thickness(10, 0, 10, 0)
-                AddHandler boton.Click, AddressOf buttonClick
+                Dim checkBox As New CheckBox
+                checkBox.HorizontalAlignment = HorizontalAlignment.Right
+                checkBox.VerticalAlignment = VerticalAlignment.Center
+                checkBox.Tag = lista(i)
+                checkBox.Margin = New Thickness(0, 0, 10, 0)
 
-                Grid.SetColumn(boton, 2)
-                grid.Children.Add(boton)
+                Dim escala As ScaleTransform = New ScaleTransform(1.5, 1.5)
+                checkBox.RenderTransformOrigin = New Point(0.5, 0.5)
+                checkBox.RenderTransform = escala
+
+                AddHandler checkBox.Checked, AddressOf cbChecked
+                AddHandler checkBox.Unchecked, AddressOf cbUnChecked
+                AddHandler checkBox.MouseEnter, AddressOf cbMouseEnter
+                AddHandler checkBox.MouseLeave, AddressOf cbMouseLeave
+
+                Grid.SetColumn(checkBox, 2)
+                grid.Children.Add(checkBox)
 
                 '----------------------------------------------------
 
@@ -93,115 +101,65 @@ Module Listado
 
     End Sub
 
-    Private Async Sub buttonClick(ByVal sender As Object, ByVal e As RoutedEventArgs)
+    Private Sub cbChecked(ByVal sender As Object, ByVal e As RoutedEventArgs)
 
-        Dim steamActivo As Boolean = False
+        Dim cb As CheckBox = e.Source
+        Dim appCb As Aplicacion = TryCast(cb.Tag, Aplicacion)
 
-        Try
-            Process.GetProcessesByName("Steam")(0).Kill()
-            steamActivo = True
-        Catch ex As Exception
-            steamActivo = False
-        End Try
+        appCb.Añadir = True
+        BotonCrearDisponible()
 
-        If steamActivo = True Then
-            Threading.Thread.Sleep(5000)
-        End If
+    End Sub
 
-        Dim boton As Button = e.Source
-        Dim app As Aplicacion = TryCast(boton.Tag, Aplicacion)
+    Private Sub cbUnChecked(ByVal sender As Object, ByVal e As RoutedEventArgs)
 
-        Dim textoUsuarioID As String = Nothing
-        Dim usuarioID As String = Nothing
-        Dim rutaSteam As String = Nothing
+        Dim cb As CheckBox = e.Source
+        Dim appCb As Aplicacion = TryCast(cb.Tag, Aplicacion)
 
-        Try
-            rutaSteam = My.Computer.Registry.GetValue("HKEY_CURRENT_USER\Software\Valve\Steam", "SteamPath", Nothing)
-        Catch ex As Exception
-            MsgBox("Steam not detected")
-        End Try
+        appCb.Añadir = False
+        BotonCrearDisponible()
 
-        If Not rutaSteam = Nothing Then
-            rutaSteam = rutaSteam.Replace("/", "\")
+    End Sub
 
-            textoUsuarioID = File.ReadAllText(rutaSteam + "\logs\connection_log.txt")
+    Private Sub BotonCrearDisponible()
 
-            If textoUsuarioID.Contains("SetSteamID") Then
-                Dim temp, temp2, temp3 As String
-                Dim int, int2, int3 As Integer
+        For Each wnd As Window In Application.Current.Windows
+            If wnd.GetType Is GetType(MainWindow) Then
+                Dim botonDisponible As Boolean = False
 
-                int = textoUsuarioID.LastIndexOf("SetSteamID")
-                temp = textoUsuarioID.Remove(0, int + 5)
-
-                int2 = temp.IndexOf("[U:1:")
-                temp2 = temp.Remove(0, int2 + 5)
-
-                int3 = temp2.IndexOf("]")
-                temp3 = temp2.Remove(int3, temp2.Length - int3)
-
-                usuarioID = temp3
-
-                If usuarioID.Length > 1 Then
-
-                    Dim lineas As String = Nothing
-
-                    If Not File.Exists(rutaSteam + "\userdata\" + usuarioID + "\config\shortcuts.vdf") Then
-                        File.Create(rutaSteam + "\userdata\" + usuarioID + "\config\shortcuts.vdf").Close()
-                    Else
-                        Using sr As StreamReader = New StreamReader(rutaSteam + "\userdata\" + usuarioID + "\config\shortcuts.vdf")
-                            lineas = lineas + Await sr.ReadLineAsync
-                        End Using
+                For Each app As Aplicacion In DirectCast(wnd, MainWindow).listaAppsUWP
+                    If app.Añadir = True Then
+                        botonDisponible = True
                     End If
+                Next
 
-                    Dim numero As Integer
-
-                    If Not lineas = Nothing Then
-                        If lineas.Contains("appname") Then
-                            Dim lineasTemp As String = lineas
-
-                            Dim temp4 As String
-                            Dim int4 As Integer
-
-                            Dim i As Integer = 0
-                            While i < 1000
-                                If lineasTemp.Contains("appname") Then
-                                    int4 = lineasTemp.IndexOf("appname")
-                                    temp4 = lineasTemp.Remove(0, int4 + 2)
-                                    lineasTemp = temp4
-                                    numero += 1
-                                End If
-                                i += 1
-                            End While
-                        Else
-                            numero = 0
-                        End If
-                    Else
-                        numero = 0
-                    End If
-
-                    If Not lineas = Nothing Then
-                        lineas = lineas.Remove(lineas.Length - 2, 2)
-                    Else
-                        lineas = Chr(0) + "shortcuts" + Chr(0)
-                    End If
-
-                    lineas = lineas + Chr(0) + numero.ToString + Chr(0) + Chr(1) + "appname" + Chr(0) + app.Nombre + Chr(0) + Chr(1) + "exe" + Chr(0) + Chr(34) + app.AccesoDirecto + Chr(34) + Chr(0) + Chr(1) + "StartDir" + Chr(0) + Chr(34) + "C:\Windows\" + Chr(34) + Chr(0) + Chr(1) + "icon" + Chr(0) + app.Imagen + Chr(0) + Chr(1) + "ShortcutPath" + Chr(0) + Chr(0) + Chr(2) + "IsHidden" + Chr(0) + Chr(0) + Chr(0) + Chr(0) + Chr(0) + Chr(2) + "AllowDesktopConfig" + Chr(0) + Chr(1) + Chr(0) + Chr(0) + Chr(0) + Chr(2) + "OpenVR" + Chr(0) + Chr(0) + Chr(0) + Chr(0) + Chr(0) + Chr(0) + "tags" + Chr(0) + Chr(8) + Chr(8)
-                    lineas = lineas + Chr(8) + Chr(8)
-
-                    Using sw As StreamWriter = New StreamWriter(rutaSteam + "\userdata\" + usuarioID + "\config\shortcuts.vdf", False, Encoding.ASCII)
-                        Await sw.WriteAsync(lineas)
-                    End Using
-
-                    Process.Start(rutaSteam + "\steam.exe")
+                If botonDisponible = True Then
+                    DirectCast(wnd, MainWindow).botonCrearAccesosUWP.IsEnabled = True
                 Else
-                    MsgBox("Steam User not found")
+                    DirectCast(wnd, MainWindow).botonCrearAccesosUWP.IsEnabled = False
                 End If
-            Else
-                MsgBox("Login a user in Steam")
             End If
-        Else
-            MsgBox("Steam not detected")
-        End If
+        Next
+
+    End Sub
+
+    Private Sub cbMouseEnter(ByVal sender As Object, ByVal e As RoutedEventArgs)
+
+        For Each wnd As Window In Application.Current.Windows
+            If wnd.GetType Is GetType(MainWindow) Then
+                DirectCast(wnd, MainWindow).Cursor = Cursors.Hand
+            End If
+        Next
+
+    End Sub
+
+    Private Sub cbMouseLeave(ByVal sender As Object, ByVal e As RoutedEventArgs)
+
+        For Each wnd As Window In Application.Current.Windows
+            If wnd.GetType Is GetType(MainWindow) Then
+                DirectCast(wnd, MainWindow).Cursor = Cursors.Arrow
+            End If
+        Next
 
     End Sub
 

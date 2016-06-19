@@ -148,6 +148,7 @@
     <Compile Include="Modulos\FicherosINI.vb" />
     <Compile Include="Modulos\GOGGalaxy.vb" />
     <Compile Include="Modulos\Listado.vb" />
+    <Compile Include="Modulos\Steam.vb" />
     <Compile Include="Modulos\WindowsStore.vb" />
     <Compile Include="My Project\AssemblyInfo.vb">
       <SubType>Code</SubType>
