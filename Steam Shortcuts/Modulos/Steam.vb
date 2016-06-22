@@ -1,19 +1,12 @@
-﻿Imports System.IO
+﻿Imports System.Drawing
+Imports System.IO
 Imports System.Text
 
 Module Steam
 
-    Public Async Sub CrearAccesos(listaApps As List(Of Aplicacion), cb As CheckBox, boton As Button)
+    Public Async Sub CrearAccesos(listaFinal As List(Of Aplicacion), cb As CheckBox, boton As Button)
 
         boton.IsEnabled = False
-
-        Dim listaAñadir As List(Of Aplicacion) = New List(Of Aplicacion)
-
-        For Each app As Aplicacion In listaApps
-            If app.Añadir = True Then
-                listaAñadir.Add(app)
-            End If
-        Next
 
         Dim steamActivo As Boolean = False
 
@@ -102,14 +95,31 @@ Module Steam
                         lineas = Chr(0) + "shortcuts" + Chr(0)
                     End If
 
-                    For Each app As Aplicacion In listaAñadir
+                    For Each app As Aplicacion In listaFinal
                         Dim categoria As String = Nothing
 
                         If cb.IsChecked = True Then
                             categoria = Chr(1) + "0" + Chr(0) + app.Categoria + Chr(0)
                         End If
 
-                        lineas = lineas + Chr(0) + numero.ToString + Chr(0) + Chr(1) + "appname" + Chr(0) + app.Nombre + Chr(0) + Chr(1) + "exe" + Chr(0) + Chr(34) + "C:\Windows\explorer.exe" + Chr(34) + " " + app.AccesoDirecto + Chr(0) + Chr(1) + "StartDir" + Chr(0) + Chr(34) + "C:\Windows\" + Chr(34) + Chr(0) + Chr(1) + "icon" + Chr(0) + app.Imagen + Chr(0) + Chr(1) + "ShortcutPath" + Chr(0) + Chr(0) + Chr(2) + "IsHidden" + Chr(0) + Chr(0) + Chr(0) + Chr(0) + Chr(0) + Chr(2) + "AllowDesktopConfig" + Chr(0) + Chr(1) + Chr(0) + Chr(0) + Chr(0) + Chr(2) + "OpenVR" + Chr(0) + Chr(0) + Chr(0) + Chr(0) + Chr(0) + Chr(0) + "tags" + Chr(0) + categoria + Chr(8) + Chr(8)
+                        Dim imagen As String = app.Imagen
+
+                        If Not imagen = Nothing Then
+                            If imagen.Contains(".ico") Then
+                                Dim icono As Icon = New Icon(imagen)
+                                Dim imagenIcono As Image = icono.ToBitmap
+                                imagenIcono.Save(My.Application.Info.DirectoryPath + "\Temp\" + app.Nombre + ".png")
+                                imagen = My.Application.Info.DirectoryPath + "\Temp\" + app.Nombre + ".png"
+                            End If
+                        End If
+
+                        Dim argumentos As String = app.Argumentos
+
+                        If Not argumentos = Nothing Then
+                            argumentos = " " + argumentos
+                        End If
+
+                        lineas = lineas + Chr(0) + numero.ToString + Chr(0) + Chr(1) + "appname" + Chr(0) + app.Nombre + Chr(0) + Chr(1) + "exe" + Chr(0) + Chr(34) + app.Ejecutable + Chr(34) + argumentos + Chr(0) + Chr(1) + "StartDir" + Chr(0) + Chr(34) + "C:\Windows\" + Chr(34) + Chr(0) + Chr(1) + "icon" + Chr(0) + imagen + Chr(0) + Chr(1) + "ShortcutPath" + Chr(0) + Chr(0) + Chr(2) + "IsHidden" + Chr(0) + Chr(0) + Chr(0) + Chr(0) + Chr(0) + Chr(2) + "AllowDesktopConfig" + Chr(0) + Chr(1) + Chr(0) + Chr(0) + Chr(0) + Chr(2) + "OpenVR" + Chr(0) + Chr(0) + Chr(0) + Chr(0) + Chr(0) + Chr(0) + "tags" + Chr(0) + categoria + Chr(8) + Chr(8)
 
                         numero += 1
                     Next

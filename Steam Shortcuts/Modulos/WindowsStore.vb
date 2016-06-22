@@ -16,15 +16,8 @@ Module WindowsStore
 
         If Directory.Exists(carpetaFinal) Then
             Try
-                Dim i As Integer = 0
-
-                bw.ReportProgress(0, unidad)
-
                 For Each carpeta As String In Directory.GetDirectories(carpetaFinal)
                     Try
-                        i += 1
-                        bw.ReportProgress(CInt((100 / (Directory.GetDirectories(carpetaFinal).Count)) * i))
-
                         For Each fichero As String In Directory.GetFiles(carpeta)
                             If fichero.Contains("AppxManifest.xml") Then
 
@@ -76,7 +69,7 @@ Module WindowsStore
                     End Try
                 Next
             Catch ex As Exception
-                bw.ReportProgress(0, "/*ERROR*/" + carpetaFinal)
+                bw.ReportProgress(0, "/*ERRORUWP*/" + carpetaFinal)
             End Try
         End If
 
@@ -110,7 +103,7 @@ Module WindowsStore
                     Dim nombre As String = temp10.Trim
 
                     If Not nombre.Contains("ms-resource:") Then
-                        Dim imagen As String = SacarImagen(lineas, carpetaFicheros)
+                        Dim icono As String = SacarImagen(lineas, carpetaFicheros)
 
                         Dim colorFondo As String
 
@@ -140,21 +133,21 @@ Module WindowsStore
 
                         Dim categoria As String = Nothing
 
-                        If Not FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config.ini", "Options", "CategoryUWP") = Nothing Then
-                            categoria = FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config.ini", "Options", "CategoryUWP")
+                        If Not FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config.ini", "Category", "UWP") = Nothing Then
+                            categoria = FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config.ini", "Category", "UWP")
                         End If
 
                         Dim tituloBool As Boolean = False
                         Dim i As Integer = 0
                         While i < listaApps.Count
-                            If listaApps(i).Nombre = temp10 Then
+                            If listaApps(i).Nombre = nombre Then
                                 tituloBool = True
                             End If
                             i += 1
                         End While
 
                         If tituloBool = False Then
-                            listaApps.Add(New Aplicacion(nombre, "shell:AppsFolder\" + paquete + "!" + id, imagen, colorFondo, False, categoria))
+                            listaApps.Add(New Aplicacion(nombre, "C:\Windows\explorer.exe", "shell:AppsFolder\" + paquete + "!" + id, icono, colorFondo, False, categoria))
                         End If
                     End If
                 End If

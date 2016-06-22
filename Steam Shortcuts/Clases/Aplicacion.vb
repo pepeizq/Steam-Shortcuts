@@ -1,7 +1,8 @@
 ﻿Public Class Aplicacion
 
     Private _Nombre As String
-    Private _AccesoDirecto As String
+    Private _Ejecutable As String
+    Private _Argumentos As String
     Private _Imagen As String
     Private _ColorFondo As String
     Private _Añadir As Boolean
@@ -13,9 +14,15 @@
         End Get
     End Property
 
-    Public ReadOnly Property AccesoDirecto() As String
+    Public ReadOnly Property Ejecutable() As String
         Get
-            Return _AccesoDirecto
+            Return _Ejecutable
+        End Get
+    End Property
+
+    Public ReadOnly Property Argumentos() As String
+        Get
+            Return _Argumentos
         End Get
     End Property
 
@@ -46,9 +53,10 @@
         End Get
     End Property
 
-    Public Sub New(ByVal nombre As String, ByVal accesodirecto As String, ByVal imagen As String, ByVal colorfondo As String, ByVal añadir As Boolean, ByVal categoria As String)
+    Public Sub New(ByVal nombre As String, ByVal ejecutable As String, ByVal argumentos As String, ByVal imagen As String, ByVal colorfondo As String, ByVal añadir As Boolean, ByVal categoria As String)
         _Nombre = nombre
-        _AccesoDirecto = accesodirecto
+        _Ejecutable = ejecutable
+        _Argumentos = argumentos
         _Imagen = imagen
         _ColorFondo = colorfondo
         _Añadir = añadir

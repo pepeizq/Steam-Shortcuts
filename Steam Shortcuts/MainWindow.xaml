@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Steam_UWP_Shortcuts"
+        xmlns:local="clr-namespace:Steam_Shortcuts"
         
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
@@ -11,14 +11,15 @@
         Background="{DynamicResource MaterialDesignPaper}"
                       
         mc:Ignorable="d"
-        Title="Steam UWP Shortcuts" MinHeight="360" Width="510" Loaded="Window_Loaded" 
+        Title="Steam Shortcuts" MinHeight="360" Width="510" Loaded="Window_Loaded" 
         TitleCaps="False" WindowStartupLocation="CenterScreen" Icon="Imagenes/steam-256.png" 
         ShowIconOnTitleBar="False" ShowMaxRestoreButton="False" BorderThickness="1" 
         BorderBrush="Purple" ResizeMode="NoResize">
 
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
-            <Button x:Name="buttonGreenlight" Content="Steam Greenlight" />
+            <Button x:Name="botonFAQ" Content="FAQ" />
+            <Button x:Name="botonGreenlight" Content="Steam Greenlight" />
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
 
@@ -35,8 +36,8 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <ListView x:Name="lvAppsUWP" Grid.Row="0" HorizontalContentAlignment="Stretch" BorderThickness="0,0,0,1" BorderBrush="Purple" Background="Transparent" ScrollViewer.VerticalScrollBarVisibility="Visible" />
-            <Button x:Name="botonCrearAccesosUWP" Grid.Row="1" Margin="0,15,0,5" Content="Create Shortcuts" HorizontalAlignment="Center" IsEnabled="False"/>
+            <dragablz:TabablzControl x:Name="tbControlMaestro" Grid.Row="0" BorderThickness="0,0,0,1" BorderBrush="#FF5F005F" />
+            <Button x:Name="botonCrearAccesos" Grid.Row="1" Margin="0,15,0,5" Content="Create Shortcuts" HorizontalAlignment="Center" IsEnabled="False"/>
         </Grid>
 
         <Grid x:Name="gridCarga" Grid.Row="0">
@@ -51,15 +52,7 @@
                 </Grid.RowDefinitions>
 
                 <Controls:ProgressRing Grid.Row="0" Foreground="{DynamicResource AccentColorBrush}"/>
-                <Grid Grid.Row="1" Margin="0,20,0,0" HorizontalAlignment="Center" >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock x:Name="tbCarga" Grid.Column="0" FontSize="15"/>
-                    <ProgressBar x:Name="pbCarga" Grid.Column="1" Width="300" Height="8" Visibility="Collapsed" Margin="5,0,0,0"/>
-                </Grid>
+                <TextBlock x:Name="tbCarga" Grid.Row="1" Margin="0,20,0,0" HorizontalAlignment="Center" FontSize="15"/>
             </Grid>
         </Grid>
 

@@ -1,9 +1,8 @@
-﻿Imports System.IO
-Imports System.Text
+﻿Module Listado
 
-Module Listado
+    Public Sub Carga(lista As List(Of Aplicacion), transparente As Boolean, tbControl As Dragablz.TabablzControl, titulo As String, icono As String)
 
-    Public Sub Carga(lista As List(Of Aplicacion), lv As ListView, transparente As Boolean)
+        Dim lv As ListView = New ListView
 
         If lista.Count > 0 Then
             lista.Sort(Function(x, y) x.Nombre.CompareTo(y.Nombre))
@@ -31,8 +30,6 @@ Module Listado
                 '----------------------------------------------------
 
                 Dim borde As New Border
-                borde.Width = 50
-                borde.Height = 50
 
                 If transparente = False Then
                     If lista(i).ColorFondo = Nothing Then
@@ -46,15 +43,25 @@ Module Listado
                 End If
 
                 Dim imagen As New Image
-                imagen.Width = 50
-                imagen.Height = 50
 
                 If Not lista(i).Imagen = Nothing Then
                     Dim bi3 As New BitmapImage
                     bi3.BeginInit()
                     bi3.UriSource = New Uri(lista(i).Imagen, UriKind.RelativeOrAbsolute)
                     bi3.EndInit()
+
                     imagen.Source = bi3
+                    imagen.Width = 40
+                    imagen.Height = 40
+
+                    borde.Width = 40
+                    borde.Height = 40
+                Else
+                    imagen.Width = 0
+                    imagen.Height = 40
+
+                    borde.Width = 0
+                    borde.Height = 40
                 End If
 
                 borde.Child = imagen
@@ -95,9 +102,58 @@ Module Listado
                 '----------------------------------------------------
 
                 lv.Items.Add(grid)
+
                 i += 1
             End While
         End If
+
+        '----------------------------------------------------
+
+        Dim gridHeader As New Grid
+
+        Dim colh1 As New ColumnDefinition
+        Dim colh2 As New ColumnDefinition
+
+        colh1.Width = New GridLength(1, GridUnitType.Auto)
+        colh2.Width = New GridLength(1, GridUnitType.Auto)
+
+        gridHeader.ColumnDefinitions.Add(colh1)
+        gridHeader.ColumnDefinitions.Add(colh2)
+
+        gridHeader.Margin = New Thickness(2, 2, 2, 2)
+
+        '----------------------------------------------------
+
+        Dim iconoHeader As New Image
+
+        If Not icono = Nothing Then
+            iconoHeader.Source = New BitmapImage(New Uri(icono))
+        End If
+
+        Grid.SetColumn(iconoHeader, 0)
+        gridHeader.Children.Add(iconoHeader)
+
+        '----------------------------------------------------
+
+        Dim tituloHeader As New TextBlock
+
+        tituloHeader.Text = titulo
+        tituloHeader.FontSize = 15
+        tituloHeader.Margin = New Thickness(5, 0, 5, 0)
+        tituloHeader.Foreground = Brushes.White
+        tituloHeader.VerticalAlignment = VerticalAlignment.Center
+
+        Grid.SetColumn(tituloHeader, 1)
+        gridHeader.Children.Add(tituloHeader)
+
+        '----------------------------------------------------
+
+        Dim tabItem As New TabItem
+        tabItem.Header = gridHeader
+
+        tabItem.Content = lv
+
+        tbControl.Items.Add(tabItem)
 
     End Sub
 
@@ -127,16 +183,34 @@ Module Listado
             If wnd.GetType Is GetType(MainWindow) Then
                 Dim botonDisponible As Boolean = False
 
-                For Each app As Aplicacion In DirectCast(wnd, MainWindow).listaAppsUWP
+                For Each app As Aplicacion In DirectCast(wnd, MainWindow).listaUWP
+                    If app.Añadir = True Then
+                        botonDisponible = True
+                    End If
+                Next
+
+                For Each app As Aplicacion In DirectCast(wnd, MainWindow).listaGOG
+                    If app.Añadir = True Then
+                        botonDisponible = True
+                    End If
+                Next
+
+                For Each app As Aplicacion In DirectCast(wnd, MainWindow).listaUplay
+                    If app.Añadir = True Then
+                        botonDisponible = True
+                    End If
+                Next
+
+                For Each app As Aplicacion In DirectCast(wnd, MainWindow).listaOrigin
                     If app.Añadir = True Then
                         botonDisponible = True
                     End If
                 Next
 
                 If botonDisponible = True Then
-                    DirectCast(wnd, MainWindow).botonCrearAccesosUWP.IsEnabled = True
+                    DirectCast(wnd, MainWindow).botonCrearAccesos.IsEnabled = True
                 Else
-                    DirectCast(wnd, MainWindow).botonCrearAccesosUWP.IsEnabled = False
+                    DirectCast(wnd, MainWindow).botonCrearAccesos.IsEnabled = False
                 End If
             End If
         Next

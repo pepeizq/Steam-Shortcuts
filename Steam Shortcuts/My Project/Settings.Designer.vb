@@ -62,9 +62,9 @@ Namespace My
     Friend Module MySettingsProperty
         
         <Global.System.ComponentModel.Design.HelpKeywordAttribute("My.Settings")>  _
-        Friend ReadOnly Property Settings() As Global.Steam_UWP_Shortcuts.MySettings
+        Friend ReadOnly Property Settings() As Global.Steam_Shortcuts.MySettings
             Get
-                Return Global.Steam_UWP_Shortcuts.MySettings.Default
+                Return Global.Steam_Shortcuts.MySettings.Default
             End Get
         End Property
     End Module
