@@ -16,7 +16,7 @@ Module GOGGalaxy
                 Dim ejecutable As String = Nothing
 
                 For Each fichero As String In Directory.GetFiles(carpeta)
-                    If fichero.Contains("Launch " + nombre) Then
+                    If fichero.Contains("Launch " + nombre + ".lnk") Then
                         ejecutable = fichero
                     End If
                 Next
@@ -34,23 +34,8 @@ Module GOGGalaxy
                         End If
                     Next
                 Else
-                    Dim iconoTemp As Icon = Icon.ExtractAssociatedIcon(My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\GOG.com\Games\" + registro.ToString, "EXE", Nothing))
-                    Dim imagenIcono As Image = iconoTemp.ToBitmap
-
-                    Dim nombreTemp As String = nombre
-
-                    nombreTemp = nombreTemp.Replace(":", Nothing)
-                    nombreTemp = nombreTemp.Replace("\", Nothing)
-                    nombreTemp = nombreTemp.Replace("/", Nothing)
-                    nombreTemp = nombreTemp.Replace("*", Nothing)
-                    nombreTemp = nombreTemp.Replace("?", Nothing)
-                    nombreTemp = nombreTemp.Replace(Chr(34), Nothing)
-                    nombreTemp = nombreTemp.Replace("<", Nothing)
-                    nombreTemp = nombreTemp.Replace(">", Nothing)
-                    nombreTemp = nombreTemp.Replace("|", Nothing)
-
-                    imagenIcono.Save(My.Application.Info.DirectoryPath + "\Temp\" + nombreTemp + ".png", Imaging.ImageFormat.Png)
-                    icono = My.Application.Info.DirectoryPath + "\Temp\" + nombreTemp + ".png"
+                    Dim exe As String = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\GOG.com\Games\" + registro.ToString, "EXE", Nothing)
+                    icono = Iconos.Generar(exe, nombre)
                 End If
 
                 Dim categoria As String = Nothing

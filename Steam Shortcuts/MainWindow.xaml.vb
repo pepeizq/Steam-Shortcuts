@@ -37,7 +37,11 @@ Class MainWindow
 
         workerCarga.ReportProgress(0, "Searching Games of GOG Galaxy")
 
-        listaGOG = GOGGalaxy.GenerarJuegos(listaGOG, workerCarga)
+        Try
+            listaGOG = GOGGalaxy.GenerarJuegos(listaGOG, workerCarga)
+        Catch ex As Exception
+
+        End Try
 
         '-----------------------------------------
 
@@ -45,7 +49,11 @@ Class MainWindow
 
         workerCarga.ReportProgress(0, "Searching Games of Origin")
 
-        listaOrigin = Origin.GenerarJuegos(listaOrigin, workerCarga)
+        Try
+            listaOrigin = Origin.GenerarJuegos(listaOrigin, workerCarga)
+        Catch ex As Exception
+
+        End Try
 
         '-----------------------------------------
 
@@ -53,7 +61,11 @@ Class MainWindow
 
         workerCarga.ReportProgress(0, "Searching Games of Uplay")
 
-        listaUplay = Uplay.GenerarJuegos(listaUplay, workerCarga)
+        Try
+            listaUplay = Uplay.GenerarJuegos(listaUplay, workerCarga)
+        Catch ex As Exception
+
+        End Try
 
         '-----------------------------------------
 
@@ -61,10 +73,14 @@ Class MainWindow
 
         workerCarga.ReportProgress(0, "Searching Apps and Games of Windows Store")
 
-        Dim unidades() As String = Directory.GetLogicalDrives
-        For Each unidad As String In unidades
-            listaUWP = WindowsStore.GenerarApps(listaUWP, unidad, workerCarga)
-        Next
+        Try
+            Dim unidades() As String = Directory.GetLogicalDrives
+            For Each unidad As String In unidades
+                listaUWP = WindowsStore.GenerarApps(listaUWP, unidad, workerCarga)
+            Next
+        Catch ex As Exception
+
+        End Try
 
     End Sub
 

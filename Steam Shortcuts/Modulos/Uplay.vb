@@ -13,11 +13,13 @@ Module Uplay
 
                 Dim identificador As String = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Ubisoft\Launcher\Installs\" + registro.ToString, "InstallDir", Nothing)
 
-                Dim int As Integer
-                identificador = identificador.Remove(identificador.Length - 1, 1)
+                If Not identificador = Nothing Then
+                    Dim int As Integer
+                    identificador = identificador.Remove(identificador.Length - 1, 1)
 
-                int = identificador.LastIndexOf("/")
-                identificador = identificador.Remove(0, int + 1)
+                    int = identificador.LastIndexOf("/")
+                    identificador = identificador.Remove(0, int + 1)
+                End If
 
                 Dim carpeta As String = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Ubisoft\Launcher", "InstallDir", Nothing)
 

@@ -148,6 +148,7 @@
   <ItemGroup>
     <Compile Include="Modulos\FicherosINI.vb" />
     <Compile Include="Modulos\GOGGalaxy.vb" />
+    <Compile Include="Modulos\Iconos.vb" />
     <Compile Include="Modulos\Listado.vb" />
     <Compile Include="Modulos\Origin.vb" />
     <Compile Include="Modulos\Steam.vb" />
