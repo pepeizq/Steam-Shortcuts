@@ -8,23 +8,43 @@ Class MainWindow
 
     Private Sub Window_Loaded(sender As Object, e As RoutedEventArgs)
 
-        tbCreditos.Text = "Version " + My.Application.Info.Version.Major.ToString + "." + My.Application.Info.Version.Minor.ToString + " - pepeizqapps.com"
+        Try
+            tbCreditos.Text = "Version " + My.Application.Info.Version.Major.ToString + "." + My.Application.Info.Version.Minor.ToString + " - pepeizqapps.com"
+        Catch ex As Exception
+            tbCreditos.Text = "pepeizqapps.com"
+        End Try
 
-        If Not File.Exists(My.Application.Info.DirectoryPath + "\Config.ini") Then
-            File.WriteAllText(My.Application.Info.DirectoryPath + "\Config.ini", "[Options]" + Environment.NewLine + "Category=True" + Environment.NewLine + "Greenlight=False")
-        End If
+        Try
+            If Not File.Exists(My.Application.Info.DirectoryPath + "\Config.ini") Then
+                File.WriteAllText(My.Application.Info.DirectoryPath + "\Config.ini", "[Options]" + Environment.NewLine + "[Category]" + Environment.NewLine + "[Games]" + Environment.NewLine + "[Apps]")
+            End If
+        Catch ex As Exception
 
-        If FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config.ini", "Options", "Greenlight") = "True" Then
+        End Try
+
+        Try
+            If FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config.ini", "Options", "Greenlight") = "True" Then
+                botonGreenlight.Visibility = Visibility.Collapsed
+            End If
+        Catch ex As Exception
             botonGreenlight.Visibility = Visibility.Collapsed
-        End If
+        End Try
 
-        If FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config.ini", "Options", "Category") = "True" Then
+        Try
+            If FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config.ini", "Options", "Category") = "True" Then
+                cbCategoriaSteam.IsChecked = True
+            End If
+        Catch ex As Exception
             cbCategoriaSteam.IsChecked = True
-        End If
+        End Try
 
-        If Not Directory.Exists(My.Application.Info.DirectoryPath + "\Temp") Then
-            Directory.CreateDirectory(My.Application.Info.DirectoryPath + "\Temp")
-        End If
+        Try
+            If Not Directory.Exists(My.Application.Info.DirectoryPath + "\Temp") Then
+                Directory.CreateDirectory(My.Application.Info.DirectoryPath + "\Temp")
+            End If
+        Catch ex As Exception
+
+        End Try
 
         workerCarga.WorkerReportsProgress = True
         workerCarga.RunWorkerAsync()
@@ -86,21 +106,37 @@ Class MainWindow
 
     Private Sub workerCarga_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles workerCarga.RunWorkerCompleted
 
-        If listaGOG.Count > 0 Then
-            Listado.Carga(listaGOG, True, tbControlMaestro, "GOG Galaxy", "pack://application:,,/Imagenes/goggalaxy.ico")
-        End If
+        Try
+            If listaGOG.Count > 0 Then
+                Listado.Carga(listaGOG, True, tbControlMaestro, "GOG Galaxy", "pack://application:,,/Imagenes/goggalaxy.ico")
+            End If
+        Catch ex As Exception
 
-        If listaOrigin.Count > 0 Then
-            Listado.Carga(listaOrigin, True, tbControlMaestro, "Origin", "pack://application:,,/Imagenes/origin.png")
-        End If
+        End Try
 
-        If listaUplay.Count > 0 Then
-            Listado.Carga(listaUplay, True, tbControlMaestro, "Uplay", "pack://application:,,/Imagenes/uplay.png")
-        End If
+        Try
+            If listaOrigin.Count > 0 Then
+                Listado.Carga(listaOrigin, True, tbControlMaestro, "Origin", "pack://application:,,/Imagenes/origin.png")
+            End If
+        Catch ex As Exception
 
-        If listaUWP.Count > 0 Then
-            Listado.Carga(listaUWP, False, tbControlMaestro, "Windows Store", "pack://application:,,/Imagenes/windowsstore.png")
-        End If
+        End Try
+
+        Try
+            If listaUplay.Count > 0 Then
+                Listado.Carga(listaUplay, True, tbControlMaestro, "Uplay", "pack://application:,,/Imagenes/uplay.png")
+            End If
+        Catch ex As Exception
+
+        End Try
+
+        Try
+            If listaUWP.Count > 0 Then
+                Listado.Carga(listaUWP, False, tbControlMaestro, "Windows Store", "pack://application:,,/Imagenes/windowsstore.png")
+            End If
+        Catch ex As Exception
+
+        End Try
 
         gridCarga.Visibility = Visibility.Collapsed
 

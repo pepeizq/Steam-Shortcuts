@@ -101,6 +101,7 @@
 
                 '----------------------------------------------------
 
+                grid.ToolTip = lista(i).Ejecutable + " " + lista(i).Argumentos
                 lv.Items.Add(grid)
 
                 i += 1

@@ -96,6 +96,23 @@ Module Steam
                     End If
 
                     For Each app As Aplicacion In listaFinal
+                        Dim nombre As String = app.Nombre
+
+                        If Not nombre = Nothing Then
+                            nombre = nombre.Replace("™", Nothing)
+                            nombre = nombre.Replace("®", Nothing)
+
+                            nombre = nombre.Replace(":", Nothing)
+                            nombre = nombre.Replace("\", Nothing)
+                            nombre = nombre.Replace("/", Nothing)
+                            nombre = nombre.Replace("*", Nothing)
+                            nombre = nombre.Replace("?", Nothing)
+                            nombre = nombre.Replace(Chr(34), Nothing)
+                            nombre = nombre.Replace("<", Nothing)
+                            nombre = nombre.Replace(">", Nothing)
+                            nombre = nombre.Replace("|", Nothing)
+                        End If
+
                         Dim categoria As String = Nothing
 
                         If cb.IsChecked = True Then
@@ -108,8 +125,8 @@ Module Steam
                             If imagen.Contains(".ico") Then
                                 Dim icono As Icon = New Icon(imagen)
                                 Dim imagenIcono As Image = icono.ToBitmap
-                                imagenIcono.Save(My.Application.Info.DirectoryPath + "\Temp\" + app.Nombre + ".png")
-                                imagen = My.Application.Info.DirectoryPath + "\Temp\" + app.Nombre + ".png"
+                                imagenIcono.Save(My.Application.Info.DirectoryPath + "\Temp\" + nombre + ".png")
+                                imagen = My.Application.Info.DirectoryPath + "\Temp\" + nombre + ".png"
                             End If
                         End If
 
@@ -119,7 +136,7 @@ Module Steam
                             argumentos = " " + argumentos
                         End If
 
-                        lineas = lineas + Chr(0) + numero.ToString + Chr(0) + Chr(1) + "appname" + Chr(0) + app.Nombre + Chr(0) + Chr(1) + "exe" + Chr(0) + Chr(34) + app.Ejecutable + Chr(34) + argumentos + Chr(0) + Chr(1) + "StartDir" + Chr(0) + Chr(34) + "C:\Windows\" + Chr(34) + Chr(0) + Chr(1) + "icon" + Chr(0) + imagen + Chr(0) + Chr(1) + "ShortcutPath" + Chr(0) + Chr(0) + Chr(2) + "IsHidden" + Chr(0) + Chr(0) + Chr(0) + Chr(0) + Chr(0) + Chr(2) + "AllowDesktopConfig" + Chr(0) + Chr(1) + Chr(0) + Chr(0) + Chr(0) + Chr(2) + "OpenVR" + Chr(0) + Chr(0) + Chr(0) + Chr(0) + Chr(0) + Chr(0) + "tags" + Chr(0) + categoria + Chr(8) + Chr(8)
+                        lineas = lineas + Chr(0) + numero.ToString + Chr(0) + Chr(1) + "appname" + Chr(0) + nombre + Chr(0) + Chr(1) + "exe" + Chr(0) + Chr(34) + app.Ejecutable + Chr(34) + argumentos + Chr(0) + Chr(1) + "StartDir" + Chr(0) + Chr(34) + "C:\Windows\" + Chr(34) + Chr(0) + Chr(1) + "icon" + Chr(0) + imagen + Chr(0) + Chr(1) + "ShortcutPath" + Chr(0) + Chr(0) + Chr(2) + "IsHidden" + Chr(0) + Chr(0) + Chr(0) + Chr(0) + Chr(0) + Chr(2) + "AllowDesktopConfig" + Chr(0) + Chr(1) + Chr(0) + Chr(0) + Chr(0) + Chr(2) + "OpenVR" + Chr(0) + Chr(0) + Chr(0) + Chr(0) + Chr(0) + Chr(0) + "tags" + Chr(0) + categoria + Chr(8) + Chr(8)
 
                         numero += 1
                     Next
