@@ -40,8 +40,8 @@ Module GOGGalaxy
 
                 Dim categoria As String = Nothing
 
-                If Not FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config.ini", "Category", "GOG") = Nothing Then
-                    categoria = FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config.ini", "Category", "GOG")
+                If Not FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config\Config.ini", "Category", "GOG") = Nothing Then
+                    categoria = FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config\Config.ini", "Category", "GOG")
                 End If
 
                 Dim tituloBool As Boolean = False

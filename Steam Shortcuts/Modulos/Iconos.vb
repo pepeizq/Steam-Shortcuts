@@ -15,6 +15,9 @@ Module Iconos
 
         Dim nombreTemp As String = nombre
 
+        nombreTemp = nombreTemp.Replace("™", Nothing)
+        nombreTemp = nombreTemp.Replace("®", Nothing)
+
         nombreTemp = nombreTemp.Replace(":", Nothing)
         nombreTemp = nombreTemp.Replace("\", Nothing)
         nombreTemp = nombreTemp.Replace("/", Nothing)

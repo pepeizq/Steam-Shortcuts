@@ -4,7 +4,7 @@ Imports System.IO
 Class MainWindow
 
     Dim WithEvents workerCarga As New BackgroundWorker
-    Public listaUWP, listaGOG, listaUplay, listaOrigin As List(Of Aplicacion)
+    Public listaUWP, listaGOG, listaUplay, listaOrigin, listaBattlenet As List(Of Aplicacion)
 
     Private Sub Window_Loaded(sender As Object, e As RoutedEventArgs)
 
@@ -15,15 +15,15 @@ Class MainWindow
         End Try
 
         Try
-            If Not File.Exists(My.Application.Info.DirectoryPath + "\Config.ini") Then
-                File.WriteAllText(My.Application.Info.DirectoryPath + "\Config.ini", "[Options]" + Environment.NewLine + "[Category]" + Environment.NewLine + "[Games]" + Environment.NewLine + "[Apps]")
+            If Not File.Exists(My.Application.Info.DirectoryPath + "\Config\Config.ini") Then
+                File.WriteAllText(My.Application.Info.DirectoryPath + "\Config\Config.ini", "[Options]" + Environment.NewLine + "[Category]" + Environment.NewLine + "[Games]" + Environment.NewLine + "[Apps]")
             End If
         Catch ex As Exception
 
         End Try
 
         Try
-            If FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config.ini", "Options", "Greenlight") = "True" Then
+            If FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config\Config.ini", "Options", "Greenlight") = "True" Then
                 botonGreenlight.Visibility = Visibility.Collapsed
             End If
         Catch ex As Exception
@@ -31,7 +31,7 @@ Class MainWindow
         End Try
 
         Try
-            If FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config.ini", "Options", "Category") = "True" Then
+            If FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config\Config.ini", "Options", "Category") = "True" Then
                 cbCategoriaSteam.IsChecked = True
             End If
         Catch ex As Exception
@@ -52,6 +52,18 @@ Class MainWindow
     End Sub
 
     Private Sub workerCarga_DoWork(sender As Object, e As DoWorkEventArgs) Handles workerCarga.DoWork
+
+        listaBattlenet = New List(Of Aplicacion)
+
+        workerCarga.ReportProgress(0, "Searching Games of Battle.net")
+
+        Try
+            listaBattlenet = Battlenet.GenerarJuegos(listaBattlenet, workerCarga)
+        Catch ex As Exception
+
+        End Try
+
+        '-----------------------------------------
 
         listaGOG = New List(Of Aplicacion)
 
@@ -105,6 +117,14 @@ Class MainWindow
     End Sub
 
     Private Sub workerCarga_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles workerCarga.RunWorkerCompleted
+
+        Try
+            If listaBattlenet.Count > 0 Then
+                Listado.Carga(listaBattlenet, True, tbControlMaestro, "Battle.net", "pack://application:,,/Imagenes/battlenet.png")
+            End If
+        Catch ex As Exception
+
+        End Try
 
         Try
             If listaGOG.Count > 0 Then
@@ -200,6 +220,12 @@ Class MainWindow
             End If
         Next
 
+        For Each app As Aplicacion In listaBattlenet
+            If app.Añadir = True Then
+                listaFinal.Add(app)
+            End If
+        Next
+
         Steam.CrearAccesos(listaFinal, cbCategoriaSteam, botonCrearAccesos)
 
         For Each tabitem As TabItem In tbControlMaestro.Items
@@ -229,7 +255,7 @@ Class MainWindow
 
         Try
             Process.Start("http://steamcommunity.com/sharedfiles/filedetails/?id=700966331")
-            FicherosINI.Escribir(My.Application.Info.DirectoryPath + "\Config.ini", "Options", "Greenlight", "True")
+            FicherosINI.Escribir(My.Application.Info.DirectoryPath + "\Config\Config.ini", "Options", "Greenlight", "True")
             botonGreenlight.Visibility = Visibility.Collapsed
         Catch ex As Exception
 
@@ -239,13 +265,13 @@ Class MainWindow
 
     Private Sub cbCategoriaSteam_Checked(sender As Object, e As RoutedEventArgs) Handles cbCategoriaSteam.Checked
 
-        FicherosINI.Escribir(My.Application.Info.DirectoryPath + "\Config.ini", "Options", "Category", "True")
+        FicherosINI.Escribir(My.Application.Info.DirectoryPath + "\Config\Config.ini", "Options", "Category", "True")
 
     End Sub
 
     Private Sub cbCategoriaSteam_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbCategoriaSteam.Unchecked
 
-        FicherosINI.Escribir(My.Application.Info.DirectoryPath + "\Config.ini", "Options", "Category", "False")
+        FicherosINI.Escribir(My.Application.Info.DirectoryPath + "\Config\Config.ini", "Options", "Category", "False")
 
     End Sub
 End Class

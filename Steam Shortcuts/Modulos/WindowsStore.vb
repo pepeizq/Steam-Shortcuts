@@ -133,8 +133,8 @@ Module WindowsStore
 
                         Dim categoria As String = Nothing
 
-                        If Not FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config.ini", "Category", "UWP") = Nothing Then
-                            categoria = FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config.ini", "Category", "UWP")
+                        If Not FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config\Config.ini", "Category", "UWP") = Nothing Then
+                            categoria = FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config\Config.ini", "Category", "UWP")
                         End If
 
                         Dim tituloBool As Boolean = False
@@ -180,12 +180,12 @@ Module WindowsStore
             temp3 = temp3.Remove(0, int4 + 1)
         End If
 
-        If Not FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config.ini", "Games", temp3) = Nothing Then
-            temp3 = FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config.ini", "Games", temp3)
+        If Not FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config\UWP.ini", "Games", temp3) = Nothing Then
+            temp3 = FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config\UWP.ini", "Games", temp3)
         End If
 
-        If Not FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config.ini", "Apps", temp3) = Nothing Then
-            temp3 = FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config.ini", "Apps", temp3)
+        If Not FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config\UWP.ini", "Apps", temp3) = Nothing Then
+            temp3 = FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config\UWP.ini", "Apps", temp3)
         End If
 
         Return temp3

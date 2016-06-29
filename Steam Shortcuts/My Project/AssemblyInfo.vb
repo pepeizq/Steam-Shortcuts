@@ -13,7 +13,7 @@ Imports System.Windows
 
 <Assembly: AssemblyTitle("Steam Shortcuts")>
 <Assembly: AssemblyDescription("")>
-<Assembly: AssemblyCompany("https://pepeizqapps.com")>
+<Assembly: AssemblyCompany("pepeizqapps.com")>
 <Assembly: AssemblyProduct("Steam Shortcuts")>
 <Assembly: AssemblyCopyright("Copyright © pepeizq 2016")>
 <Assembly: AssemblyTrademark("")>
@@ -55,5 +55,5 @@ Imports System.Windows
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("0.8.0.0")>
-<Assembly: AssemblyFileVersion("0.8.0.0")>
+<Assembly: AssemblyVersion("0.9.0.0")>
+<Assembly: AssemblyFileVersion("0.9.0.0")>

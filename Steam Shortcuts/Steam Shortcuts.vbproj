@@ -146,6 +146,7 @@
     <Import Include="System.Windows.Navigation" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Modulos\Battlenet.vb" />
     <Compile Include="Modulos\FicherosINI.vb" />
     <Compile Include="Modulos\GOGGalaxy.vb" />
     <Compile Include="Modulos\Iconos.vb" />
@@ -218,6 +219,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Imagenes\origin.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Imagenes\battlenet.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

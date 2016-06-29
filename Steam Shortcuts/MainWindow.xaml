@@ -11,7 +11,7 @@
         Background="{DynamicResource MaterialDesignPaper}"
                       
         mc:Ignorable="d"
-        Title="Steam Shortcuts" MinHeight="360" Width="510" Loaded="Window_Loaded" 
+        Title="Steam Shortcuts" MinHeight="360" Width="565" Loaded="Window_Loaded" 
         TitleCaps="False" WindowStartupLocation="CenterScreen" Icon="Imagenes/steam-256.png" 
         ShowIconOnTitleBar="False" ShowMaxRestoreButton="False" BorderThickness="1" 
         BorderBrush="Purple" ResizeMode="NoResize">

@@ -91,8 +91,8 @@ Module Origin
 
                         Dim categoria As String = Nothing
 
-                        If Not FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config.ini", "Category", "Origin") = Nothing Then
-                            categoria = FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config.ini", "Category", "Origin")
+                        If Not FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config\Config.ini", "Category", "Origin") = Nothing Then
+                            categoria = FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config\Config.ini", "Category", "Origin")
                         End If
 
                         If tituloBool = False Then

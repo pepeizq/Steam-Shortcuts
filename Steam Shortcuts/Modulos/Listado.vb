@@ -208,6 +208,12 @@
                     End If
                 Next
 
+                For Each app As Aplicacion In DirectCast(wnd, MainWindow).listaBattlenet
+                    If app.Añadir = True Then
+                        botonDisponible = True
+                    End If
+                Next
+
                 If botonDisponible = True Then
                     DirectCast(wnd, MainWindow).botonCrearAccesos.IsEnabled = True
                 Else

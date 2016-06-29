@@ -49,8 +49,8 @@ Module Uplay
 
                             Dim categoria As String = Nothing
 
-                            If Not FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config.ini", "Category", "Uplay") = Nothing Then
-                                categoria = FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config.ini", "Category", "Uplay")
+                            If Not FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config\Config.ini", "Category", "Uplay") = Nothing Then
+                                categoria = FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config\Config.ini", "Category", "Uplay")
                             End If
 
                             Dim tituloBool As Boolean = False
