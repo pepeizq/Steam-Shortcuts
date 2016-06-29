@@ -1,108 +1,86 @@
 ﻿Imports System.ComponentModel
+Imports System.IO
 
 Module Origin
 
     Public Function GenerarJuegos(lista As List(Of Aplicacion), bw As BackgroundWorker) As List(Of Aplicacion)
 
-        Dim cliente As String = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Origin\", "ClientPath", Nothing)
+        Dim registroJuegos As Microsoft.Win32.RegistryKey = My.Computer.Registry.LocalMachine.OpenSubKey("SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\")
 
-        If Not cliente = Nothing Then
-            Dim registroJuegos As Microsoft.Win32.RegistryKey = My.Computer.Registry.LocalMachine.OpenSubKey("SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\")
+        If Not registroJuegos Is Nothing Then
+            For Each registro In registroJuegos.GetSubKeyNames
+                If Directory.Exists("C:\ProgramData\Origin") Then
+                    Dim localizacion As String = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\" + registro.ToString, "InstallLocation", Nothing)
 
-            If Not registroJuegos Is Nothing Then
-                For Each registro In registroJuegos.GetSubKeyNames
-                    Dim compañia As String = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\" + registro.ToString, "Publisher", Nothing)
-                    Dim compañiaBool As Boolean = False
-
-                    If Not compañia = Nothing Then
-                        If compañia.Contains("Electronic Arts") Then
-                            compañiaBool = True
+                    If Not localizacion = Nothing Then
+                        If localizacion.LastIndexOf("\") = (localizacion.Length - 1) Then
+                            localizacion = localizacion.Remove(localizacion.Length - 1, 1)
                         End If
 
-                        If compañia.Contains("PopCap Games") Then
-                            compañiaBool = True
-                        End If
-                    End If
+                        Dim int As Integer = localizacion.LastIndexOf("\")
+                        Dim clave As String = localizacion.Remove(0, int + 1)
 
-                    If compañiaBool = True Then
-                        Dim titulo As String = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\" + registro.ToString, "DisplayName", Nothing)
+                        For Each carpeta As String In Directory.GetDirectories("C:\ProgramData\Origin\LocalContent")
+                            If carpeta.Contains(clave) Then
+                                For Each fichero As String In Directory.GetFiles(carpeta)
+                                    If Not fichero.Contains("map.crc") Then
 
-                        Dim iconoRuta As String = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\" + registro.ToString, "DisplayIcon", Nothing)
+                                        Dim int2 As Integer = fichero.LastIndexOf("\")
+                                        Dim temp2 As String = fichero.Remove(0, int2 + 1)
 
-                        If Not iconoRuta = Nothing Then
-                            iconoRuta = iconoRuta.Replace(Chr(34), Nothing)
-                            iconoRuta = iconoRuta.Replace(vbNullChar, Nothing)
-                        End If
+                                        Dim int3 As Integer = temp2.LastIndexOf(".")
+                                        Dim ejecutable As String = "origin://launchgame/" + temp2.Remove(int3, temp2.Length - int3)
 
-                        Dim icono As String = Iconos.Generar(iconoRuta, titulo)
+                                        If ejecutable.Contains("OFB-EAST") Then
+                                            ejecutable = ejecutable.Replace("OFB-EAST", "OFB-EAST:")
+                                        End If
 
-                        Dim registroIDs As Microsoft.Win32.RegistryKey = My.Computer.Registry.LocalMachine.OpenSubKey("SOFTWARE\WOW6432Node\Origin Games\")
-                        Dim ejecutable As String = Nothing
-                        Dim listaIDs As New List(Of Integer)
+                                        If ejecutable.Contains("DR") Then
+                                            ejecutable = ejecutable.Replace("DR", "DR:")
+                                        End If
 
-                        If Not registroIDs Is Nothing Then
-                            For Each registroID In registroIDs.GetSubKeyNames
-                                Dim tituloID As String = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Origin Games\" + registroID, "DisplayName", Nothing)
+                                        Dim titulo As String = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\" + registro.ToString, "DisplayName", Nothing)
 
-                                If tituloID.Contains(titulo) Then
-                                    listaIDs.Add(registroID)
-                                End If
-                            Next
-                        End If
+                                        Dim tituloBool As Boolean = False
+                                        Dim i As Integer = 0
+                                        While i < lista.Count
+                                            If lista(i).Nombre = titulo Then
+                                                tituloBool = True
+                                            End If
+                                            i += 1
+                                        End While
 
-                        If listaIDs.Count = 0 Then
-                            If Not registroIDs Is Nothing Then
-                                For Each registroID In registroIDs.GetSubKeyNames
-                                    Dim tituloID As String = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Origin Games\" + registroID, "DisplayName", Nothing)
+                                        If titulo = "Origin" Then
+                                            tituloBool = True
+                                        End If
 
-                                    If Not titulo = Nothing Then
-                                        titulo = titulo.Replace("™", Nothing)
-                                        titulo = titulo.Replace("®", Nothing)
-                                        titulo = titulo.Replace("'", Nothing)
-                                    End If
+                                        If tituloBool = False Then
+                                            Dim iconoRuta As String = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\" + registro.ToString, "DisplayIcon", Nothing)
 
-                                    If Not tituloID = Nothing Then
-                                        tituloID = tituloID.Replace("™", Nothing)
-                                        tituloID = tituloID.Replace("®", Nothing)
-                                        tituloID = tituloID.Replace("'", Nothing)
-                                    End If
+                                            If Not iconoRuta = Nothing Then
+                                                iconoRuta = iconoRuta.Replace(Chr(34), Nothing)
+                                                iconoRuta = iconoRuta.Replace(vbNullChar, Nothing)
+                                            End If
 
-                                    If tituloID = titulo Then
-                                        listaIDs.Add(registroID)
+                                            Dim icono As String = Iconos.Generar(iconoRuta, titulo)
+
+                                            Dim categoria As String = Nothing
+
+                                            If Not FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config\Config.ini", "Category", "Origin") = Nothing Then
+                                                categoria = FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config\Config.ini", "Category", "Origin")
+                                            End If
+
+                                            If Not ejecutable = Nothing Then
+                                                lista.Add(New Aplicacion(titulo, ejecutable, Nothing, icono, Nothing, False, categoria))
+                                            End If
+                                        End If
                                     End If
                                 Next
                             End If
-                        End If
-
-                        If listaIDs.Count > 0 Then
-                            listaIDs.Sort(Function(x, y) x.CompareTo(y))
-
-                            ejecutable = "origin://launchgame/" + listaIDs(0).ToString
-                        End If
-
-                        Dim tituloBool As Boolean = False
-                        Dim i As Integer = 0
-                        While i < lista.Count
-                            If lista(i).Nombre = titulo Then
-                                tituloBool = True
-                            End If
-                            i += 1
-                        End While
-
-                        Dim categoria As String = Nothing
-
-                        If Not FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config\Config.ini", "Category", "Origin") = Nothing Then
-                            categoria = FicherosINI.Leer(My.Application.Info.DirectoryPath + "\Config\Config.ini", "Category", "Origin")
-                        End If
-
-                        If tituloBool = False Then
-                            If Not ejecutable = Nothing Then
-                                lista.Add(New Aplicacion(titulo, cliente, ejecutable, icono, Nothing, False, categoria))
-                            End If
-                        End If
+                        Next
                     End If
-                Next
-            End If
+                End If
+            Next
         End If
 
         Return lista
