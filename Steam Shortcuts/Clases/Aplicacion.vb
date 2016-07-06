@@ -3,7 +3,7 @@
     Private _Nombre As String
     Private _Ejecutable As String
     Private _Argumentos As String
-    Private _Imagen As String
+    Private _Icono As String
     Private _ColorFondo As String
     Private _Añadir As Boolean
     Private _Categoria As String
@@ -26,9 +26,9 @@
         End Get
     End Property
 
-    Public ReadOnly Property Imagen() As String
+    Public ReadOnly Property Icono() As String
         Get
-            Return _Imagen
+            Return _Icono
         End Get
     End Property
 
@@ -53,11 +53,11 @@
         End Get
     End Property
 
-    Public Sub New(ByVal nombre As String, ByVal ejecutable As String, ByVal argumentos As String, ByVal imagen As String, ByVal colorfondo As String, ByVal añadir As Boolean, ByVal categoria As String)
+    Public Sub New(ByVal nombre As String, ByVal ejecutable As String, ByVal argumentos As String, ByVal icono As String, ByVal colorfondo As String, ByVal añadir As Boolean, ByVal categoria As String)
         _Nombre = nombre
         _Ejecutable = ejecutable
         _Argumentos = argumentos
-        _Imagen = imagen
+        _Icono = icono
         _ColorFondo = colorfondo
         _Añadir = añadir
         _Categoria = categoria

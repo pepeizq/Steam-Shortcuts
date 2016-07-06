@@ -10,7 +10,7 @@ Module Origin
         If Not registroJuegos Is Nothing Then
             For Each registro In registroJuegos.GetSubKeyNames
                 If Directory.Exists("C:\ProgramData\Origin") Then
-                    Dim localizacion As String = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\" + registro.ToString, "InstallLocation", Nothing)
+                    Dim localizacion As String = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\" + registro, "InstallLocation", Nothing)
 
                     If Not localizacion = Nothing Then
                         If localizacion.LastIndexOf("\") = (localizacion.Length - 1) Then
@@ -39,7 +39,7 @@ Module Origin
                                             ejecutable = ejecutable.Replace("DR", "DR:")
                                         End If
 
-                                        Dim titulo As String = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\" + registro.ToString, "DisplayName", Nothing)
+                                        Dim titulo As String = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\" + registro, "DisplayName", Nothing)
 
                                         Dim tituloBool As Boolean = False
                                         Dim i As Integer = 0
@@ -55,7 +55,7 @@ Module Origin
                                         End If
 
                                         If tituloBool = False Then
-                                            Dim iconoRuta As String = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\" + registro.ToString, "DisplayIcon", Nothing)
+                                            Dim iconoRuta As String = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\" + registro, "DisplayIcon", Nothing)
 
                                             If Not iconoRuta = Nothing Then
                                                 iconoRuta = iconoRuta.Replace(Chr(34), Nothing)

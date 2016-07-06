@@ -44,10 +44,10 @@
 
                 Dim imagen As New Image
 
-                If Not lista(i).Imagen = Nothing Then
+                If Not lista(i).Icono = Nothing Then
                     Dim bi3 As New BitmapImage
                     bi3.BeginInit()
-                    bi3.UriSource = New Uri(lista(i).Imagen, UriKind.RelativeOrAbsolute)
+                    bi3.UriSource = New Uri(lista(i).Icono, UriKind.RelativeOrAbsolute)
                     bi3.EndInit()
 
                     imagen.Source = bi3

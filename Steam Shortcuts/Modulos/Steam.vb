@@ -119,7 +119,7 @@ Module Steam
                             categoria = Chr(1) + "0" + Chr(0) + app.Categoria + Chr(0)
                         End If
 
-                        Dim imagen As String = app.Imagen
+                        Dim imagen As String = app.Icono
 
                         If Not imagen = Nothing Then
                             If imagen.Contains(".ico") Then

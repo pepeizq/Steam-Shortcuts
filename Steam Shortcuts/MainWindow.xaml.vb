@@ -81,11 +81,11 @@ Class MainWindow
 
         workerCarga.ReportProgress(0, "Searching Games of Origin")
 
-        'Try
-        listaOrigin = Origin.GenerarJuegos(listaOrigin, workerCarga)
-        'Catch ex As Exception
+        Try
+            listaOrigin = Origin.GenerarJuegos(listaOrigin, workerCarga)
+        Catch ex As Exception
 
-        'End Try
+        End Try
 
         '-----------------------------------------
 

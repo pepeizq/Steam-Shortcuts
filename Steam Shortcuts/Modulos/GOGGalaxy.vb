@@ -1,17 +1,16 @@
 ﻿Imports System.ComponentModel
-Imports System.Drawing
 Imports System.IO
 
 Module GOGGalaxy
 
     Public Function GenerarJuegos(lista As List(Of Aplicacion), bw As BackgroundWorker) As List(Of Aplicacion)
 
-        Dim registroMaestro As Microsoft.Win32.RegistryKey = My.Computer.Registry.LocalMachine.OpenSubKey("SOFTWARE\WOW6432Node\GOG.com\Games\")
+        Dim registroJuegos As Microsoft.Win32.RegistryKey = My.Computer.Registry.LocalMachine.OpenSubKey("SOFTWARE\WOW6432Node\GOG.com\Games\")
 
-        If Not registroMaestro Is Nothing Then
-            For Each registro In registroMaestro.GetSubKeyNames
-                Dim nombre As String = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\GOG.com\Games\" + registro.ToString, "GAMENAME", Nothing)
-                Dim carpeta As String = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\GOG.com\Games\" + registro.ToString, "PATH", Nothing)
+        If Not registroJuegos Is Nothing Then
+            For Each registro In registroJuegos.GetSubKeyNames
+                Dim nombre As String = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\GOG.com\Games\" + registro, "GAMENAME", Nothing)
+                Dim carpeta As String = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\GOG.com\Games\" + registro, "PATH", Nothing)
 
                 Dim ejecutable As String = Nothing
 
@@ -22,21 +21,16 @@ Module GOGGalaxy
                 Next
 
                 If ejecutable = Nothing Then
-                    ejecutable = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\GOG.com\Games\" + registro.ToString, "LAUNCHCOMMAND", Nothing)
+                    ejecutable = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\GOG.com\Games\" + registro, "LAUNCHCOMMAND", Nothing)
                 End If
 
                 Dim icono As String = Nothing
 
-                If My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\GOG.com\Games\" + registro.ToString, "EXE", Nothing).Contains("dosbox.exe") Then
-                    For Each ficheroIcono As String In Directory.GetFiles(carpeta)
-                        If ficheroIcono.Contains("goggame-") And ficheroIcono.Contains(".ico") Then
-                            icono = ficheroIcono
-                        End If
-                    Next
-                Else
-                    Dim exe As String = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\GOG.com\Games\" + registro.ToString, "EXE", Nothing)
-                    icono = Iconos.Generar(exe, nombre)
-                End If
+                For Each ficheroIcono As String In Directory.GetFiles(carpeta)
+                    If ficheroIcono.Contains("goggame-") And ficheroIcono.Contains(".ico") Then
+                        icono = ficheroIcono
+                    End If
+                Next
 
                 Dim categoria As String = Nothing
 
