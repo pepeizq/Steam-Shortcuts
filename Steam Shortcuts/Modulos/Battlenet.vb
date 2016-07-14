@@ -1,5 +1,4 @@
 ﻿Imports System.ComponentModel
-Imports System.IO
 
 Module Battlenet
 
@@ -7,9 +6,18 @@ Module Battlenet
 
         Dim registroJuegos As Microsoft.Win32.RegistryKey = My.Computer.Registry.LocalMachine.OpenSubKey("SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\")
 
+        If registroJuegos Is Nothing Then
+            registroJuegos = My.Computer.Registry.LocalMachine.OpenSubKey("SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\")
+        End If
+
         If Not registroJuegos Is Nothing Then
             For Each registro In registroJuegos.GetSubKeyNames
                 Dim compañia As String = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\" + registro.ToString, "Publisher", Nothing)
+
+                If compañia = Nothing Then
+                    compañia = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\" + registro.ToString, "Publisher", Nothing)
+                End If
+
                 Dim compañiaBool As Boolean = False
 
                 If Not compañia = Nothing Then
@@ -21,7 +29,15 @@ Module Battlenet
                 If compañiaBool = True Then
                     Dim titulo As String = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\" + registro.ToString, "DisplayName", Nothing)
 
+                    If titulo = Nothing Then
+                        titulo = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\" + registro.ToString, "DisplayName", Nothing)
+                    End If
+
                     Dim iconoRuta As String = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\" + registro.ToString, "DisplayIcon", Nothing)
+
+                    If iconoRuta = Nothing Then
+                        iconoRuta = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\" + registro.ToString, "DisplayIcon", Nothing)
+                    End If
 
                     If Not iconoRuta = Nothing Then
                         iconoRuta = iconoRuta.Replace(Chr(34), Nothing)

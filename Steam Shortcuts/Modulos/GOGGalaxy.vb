@@ -7,10 +7,23 @@ Module GOGGalaxy
 
         Dim registroJuegos As Microsoft.Win32.RegistryKey = My.Computer.Registry.LocalMachine.OpenSubKey("SOFTWARE\WOW6432Node\GOG.com\Games\")
 
+        If registroJuegos Is Nothing Then
+            registroJuegos = My.Computer.Registry.LocalMachine.OpenSubKey("SOFTWARE\GOG.com\Games\")
+        End If
+
         If Not registroJuegos Is Nothing Then
             For Each registro In registroJuegos.GetSubKeyNames
                 Dim nombre As String = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\GOG.com\Games\" + registro, "GAMENAME", Nothing)
+
+                If nombre = Nothing Then
+                    nombre = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\GOG.com\Games\" + registro, "GAMENAME", Nothing)
+                End If
+
                 Dim carpeta As String = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\GOG.com\Games\" + registro, "PATH", Nothing)
+
+                If carpeta = Nothing Then
+                    carpeta = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\GOG.com\Games\" + registro, "PATH", Nothing)
+                End If
 
                 Dim ejecutable As String = Nothing
 
@@ -22,6 +35,10 @@ Module GOGGalaxy
 
                 If ejecutable = Nothing Then
                     ejecutable = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\GOG.com\Games\" + registro, "LAUNCHCOMMAND", Nothing)
+
+                    If ejecutable = Nothing Then
+                        ejecutable = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\GOG.com\Games\" + registro, "LAUNCHCOMMAND", Nothing)
+                    End If
                 End If
 
                 Dim icono As String = Nothing

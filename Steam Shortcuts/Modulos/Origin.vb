@@ -7,10 +7,18 @@ Module Origin
 
         Dim registroJuegos As Microsoft.Win32.RegistryKey = My.Computer.Registry.LocalMachine.OpenSubKey("SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\")
 
+        If registroJuegos Is Nothing Then
+            registroJuegos = My.Computer.Registry.LocalMachine.OpenSubKey("SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\")
+        End If
+
         If Not registroJuegos Is Nothing Then
             For Each registro In registroJuegos.GetSubKeyNames
                 If Directory.Exists("C:\ProgramData\Origin") Then
                     Dim localizacion As String = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\" + registro, "InstallLocation", Nothing)
+
+                    If localizacion = Nothing Then
+                        localizacion = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\" + registro, "InstallLocation", Nothing)
+                    End If
 
                     If Not localizacion = Nothing Then
                         If localizacion.LastIndexOf("\") = (localizacion.Length - 1) Then
@@ -41,6 +49,10 @@ Module Origin
 
                                         Dim titulo As String = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\" + registro, "DisplayName", Nothing)
 
+                                        If titulo = Nothing Then
+                                            titulo = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\" + registro, "DisplayName", Nothing)
+                                        End If
+
                                         Dim tituloBool As Boolean = False
                                         Dim i As Integer = 0
                                         While i < lista.Count
@@ -56,6 +68,10 @@ Module Origin
 
                                         If tituloBool = False Then
                                             Dim iconoRuta As String = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\" + registro, "DisplayIcon", Nothing)
+
+                                            If iconoRuta = Nothing Then
+                                                iconoRuta = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\" + registro, "DisplayIcon", Nothing)
+                                            End If
 
                                             If Not iconoRuta = Nothing Then
                                                 iconoRuta = iconoRuta.Replace(Chr(34), Nothing)
