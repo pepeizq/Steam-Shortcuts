@@ -77,7 +77,7 @@ Class MainWindow
             workerCarga.ReportProgress(0, "/*BATTLENET*/" + listaBattlenet.Count.ToString + " Games Detected")
         Else
             If booleanErrorBattlenet = False Then
-                workerCarga.ReportProgress(0, "/*BATTLENET*/Client")
+                workerCarga.ReportProgress(0, "/*BATTLENET*/Games Not Detected")
             End If
         End If
 
@@ -94,7 +94,7 @@ Class MainWindow
             listaGOG = GOGGalaxy.GenerarJuegos(listaGOG, workerCarga)
         Catch ex As Exception
             booleanErrorGOG = True
-            workerCarga.ReportProgress(0, "/*GOGGALAXY*/Error")
+        workerCarga.ReportProgress(0, "/*GOGGALAXY*/Error")
         End Try
 
         Log.Actualizar(Nothing, "GOG Galaxy List: " + listaGOG.Count.ToString + Environment.NewLine)
@@ -103,7 +103,7 @@ Class MainWindow
             workerCarga.ReportProgress(0, "/*GOGGALAXY*/" + listaGOG.Count.ToString + " Games Detected")
         Else
             If booleanErrorGOG = False Then
-                workerCarga.ReportProgress(0, "/*GOGGALAXY*/Client Not Detected")
+                workerCarga.ReportProgress(0, "/*GOGGALAXY*/Games Not Detected")
             End If
         End If
 
@@ -129,7 +129,7 @@ Class MainWindow
             workerCarga.ReportProgress(0, "/*ORIGIN*/" + listaOrigin.Count.ToString + " Games Detected")
         Else
             If booleanErrorOrigin = False Then
-                workerCarga.ReportProgress(0, "/*ORIGIN*/Client Not Detected")
+                workerCarga.ReportProgress(0, "/*ORIGIN*/Games Not Detected")
             End If
         End If
 
@@ -155,7 +155,7 @@ Class MainWindow
             workerCarga.ReportProgress(0, "/*UPLAY*/" + listaUplay.Count.ToString + " Games Detected")
         Else
             If booleanErrorUplay = False Then
-                workerCarga.ReportProgress(0, "/*UPLAY*/Client Not Detected")
+                workerCarga.ReportProgress(0, "/*UPLAY*/Games Not Detected")
             End If
         End If
 
@@ -168,15 +168,15 @@ Class MainWindow
 
         Dim booleanErrorWindowsStore As Boolean = False
 
-        Try
-            Dim unidades() As String = Directory.GetLogicalDrives
+        'Try
+        Dim unidades() As String = Directory.GetLogicalDrives
             For Each unidad As String In unidades
                 listaUWP = WindowsStore.GenerarApps(listaUWP, unidad, workerCarga)
             Next
-        Catch ex As Exception
-            booleanErrorWindowsStore = True
-            workerCarga.ReportProgress(0, "/*WINDOWSSTORE*/Error")
-        End Try
+        'Catch ex As Exception
+        '    booleanErrorWindowsStore = True
+        '    workerCarga.ReportProgress(0, "/*WINDOWSSTORE*/Error")
+        'End Try
 
         Log.Actualizar(Nothing, "Windows Store List: " + listaUWP.Count.ToString + Environment.NewLine)
 
@@ -184,7 +184,7 @@ Class MainWindow
             workerCarga.ReportProgress(0, "/*WINDOWSSTORE*/" + listaUWP.Count.ToString + " Apps and Games Detected")
         Else
             If booleanErrorWindowsStore = False Then
-                workerCarga.ReportProgress(0, "/*WINDOWSSTORE*/Client Not Detected")
+                workerCarga.ReportProgress(0, "/*WINDOWSSTORE*/Apps or Games Not Detected")
             End If
         End If
 
@@ -513,16 +513,6 @@ Class MainWindow
 
         Try
             Process.Start("https://pepeizqapps.com/faq-steam-shortcuts/")
-        Catch ex As Exception
-
-        End Try
-
-    End Sub
-
-    Private Sub menuItemGreenlight_Click(sender As Object, e As RoutedEventArgs) Handles menuItemGreenlight.Click
-
-        Try
-            Process.Start("http://steamcommunity.com/sharedfiles/filedetails/?id=700966331")
         Catch ex As Exception
 
         End Try

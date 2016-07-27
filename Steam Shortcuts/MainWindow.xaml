@@ -44,7 +44,6 @@
                 <Menu Grid.Column="1" HorizontalAlignment="Right">
                     <MenuItem x:Name="menuItemReportBug" Header="Report a Bug"/>
                     <MenuItem x:Name="menuItemFAQ" Header="FAQ"/>
-                    <MenuItem x:Name="menuItemGreenlight" Header="Steam Greenlight"/>
                     <MenuItem x:Name="menuItemWeb" Header="pepeizqapps.com"/>
                 </Menu> 
             </Grid>

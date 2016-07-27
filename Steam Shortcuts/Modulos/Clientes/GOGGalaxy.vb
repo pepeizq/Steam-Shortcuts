@@ -28,11 +28,13 @@ Module GOGGalaxy
 
                 Dim ejecutable As String = Nothing
 
-                For Each fichero As String In Directory.GetFiles(carpeta)
-                    If fichero.Contains("Launch " + titulo + ".lnk") Then
-                        ejecutable = fichero
-                    End If
-                Next
+                If Directory.Exists(carpeta) Then
+                    For Each fichero As String In Directory.GetFiles(carpeta)
+                        If fichero.Contains("Launch " + titulo + ".lnk") Then
+                            ejecutable = fichero
+                        End If
+                    Next
+                End If
 
                 If ejecutable = Nothing Then
                     ejecutable = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\GOG.com\Games\" + registro, "LAUNCHCOMMAND", Nothing)
@@ -46,11 +48,13 @@ Module GOGGalaxy
 
                 Dim icono As String = Nothing
 
-                For Each ficheroIcono As String In Directory.GetFiles(carpeta)
-                    If ficheroIcono.Contains("goggame-") And ficheroIcono.Contains(".ico") Then
-                        icono = ficheroIcono
-                    End If
-                Next
+                If Directory.Exists(carpeta) Then
+                    For Each ficheroIcono As String In Directory.GetFiles(carpeta)
+                        If ficheroIcono.Contains("goggame-") And ficheroIcono.Contains(".ico") Then
+                            icono = ficheroIcono
+                        End If
+                    Next
+                End If
 
                 Dim categoria As String = Nothing
 
@@ -67,8 +71,10 @@ Module GOGGalaxy
                     i += 1
                 End While
 
-                If tituloBool = False Then
-                    lista.Add(New Aplicacion(titulo, ejecutable, Nothing, icono, Nothing, False, categoria))
+                If Not icono = Nothing Then
+                    If tituloBool = False Then
+                        lista.Add(New Aplicacion(titulo, ejecutable, Nothing, icono, Nothing, False, categoria))
+                    End If
                 End If
             Next
         End If
