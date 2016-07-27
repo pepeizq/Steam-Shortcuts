@@ -25,7 +25,27 @@
                 grid.ColumnDefinitions.Add(col2)
                 grid.ColumnDefinitions.Add(col3)
 
-                grid.Margin = New Thickness(10, 5, 10, 5)
+                grid.Margin = New Thickness(10, 10, 10, 10)
+
+                '----------------------------------------------------
+
+                Dim checkBox As New CheckBox
+                checkBox.HorizontalAlignment = HorizontalAlignment.Right
+                checkBox.VerticalAlignment = VerticalAlignment.Center
+                checkBox.Tag = lista(i)
+                checkBox.Margin = New Thickness(10, 0, 20, 0)
+
+                Dim escala As ScaleTransform = New ScaleTransform(1.5, 1.5)
+                checkBox.RenderTransformOrigin = New Point(0.5, 0.5)
+                checkBox.RenderTransform = escala
+
+                AddHandler checkBox.Checked, AddressOf cbChecked
+                AddHandler checkBox.Unchecked, AddressOf cbUnChecked
+                AddHandler checkBox.MouseEnter, AddressOf cbMouseEnter
+                AddHandler checkBox.MouseLeave, AddressOf cbMouseLeave
+
+                Grid.SetColumn(checkBox, 0)
+                grid.Children.Add(checkBox)
 
                 '----------------------------------------------------
 
@@ -65,7 +85,7 @@
                 End If
 
                 borde.Child = imagen
-                Grid.SetColumn(borde, 0)
+                Grid.SetColumn(borde, 1)
                 grid.Children.Add(borde)
 
                 '----------------------------------------------------
@@ -76,28 +96,8 @@
                 textoBloque.Margin = New Thickness(10, 0, 0, 0)
                 textoBloque.FontSize = 15
 
-                Grid.SetColumn(textoBloque, 1)
+                Grid.SetColumn(textoBloque, 2)
                 grid.Children.Add(textoBloque)
-
-                '----------------------------------------------------
-
-                Dim checkBox As New CheckBox
-                checkBox.HorizontalAlignment = HorizontalAlignment.Right
-                checkBox.VerticalAlignment = VerticalAlignment.Center
-                checkBox.Tag = lista(i)
-                checkBox.Margin = New Thickness(0, 0, 10, 0)
-
-                Dim escala As ScaleTransform = New ScaleTransform(1.5, 1.5)
-                checkBox.RenderTransformOrigin = New Point(0.5, 0.5)
-                checkBox.RenderTransform = escala
-
-                AddHandler checkBox.Checked, AddressOf cbChecked
-                AddHandler checkBox.Unchecked, AddressOf cbUnChecked
-                AddHandler checkBox.MouseEnter, AddressOf cbMouseEnter
-                AddHandler checkBox.MouseLeave, AddressOf cbMouseLeave
-
-                Grid.SetColumn(checkBox, 2)
-                grid.Children.Add(checkBox)
 
                 '----------------------------------------------------
 

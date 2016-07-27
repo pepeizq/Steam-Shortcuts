@@ -12,11 +12,12 @@ Module GOGGalaxy
         End If
 
         If Not registroJuegos Is Nothing Then
+            Log.Actualizar("GOG Galaxy", "001 " + registroJuegos.GetSubKeyNames.Count.ToString)
             For Each registro In registroJuegos.GetSubKeyNames
-                Dim nombre As String = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\GOG.com\Games\" + registro, "GAMENAME", Nothing)
+                Dim titulo As String = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\GOG.com\Games\" + registro, "GAMENAME", Nothing)
 
-                If nombre = Nothing Then
-                    nombre = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\GOG.com\Games\" + registro, "GAMENAME", Nothing)
+                If titulo = Nothing Then
+                    titulo = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\GOG.com\Games\" + registro, "GAMENAME", Nothing)
                 End If
 
                 Dim carpeta As String = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\GOG.com\Games\" + registro, "PATH", Nothing)
@@ -28,7 +29,7 @@ Module GOGGalaxy
                 Dim ejecutable As String = Nothing
 
                 For Each fichero As String In Directory.GetFiles(carpeta)
-                    If fichero.Contains("Launch " + nombre + ".lnk") Then
+                    If fichero.Contains("Launch " + titulo + ".lnk") Then
                         ejecutable = fichero
                     End If
                 Next
@@ -40,6 +41,8 @@ Module GOGGalaxy
                         ejecutable = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\GOG.com\Games\" + registro, "LAUNCHCOMMAND", Nothing)
                     End If
                 End If
+
+                Log.Actualizar("GOG Galaxy", "002 " + titulo + " " + ejecutable)
 
                 Dim icono As String = Nothing
 
@@ -58,14 +61,14 @@ Module GOGGalaxy
                 Dim tituloBool As Boolean = False
                 Dim i As Integer = 0
                 While i < lista.Count
-                    If lista(i).Nombre = nombre Then
+                    If lista(i).Nombre = titulo Then
                         tituloBool = True
                     End If
                     i += 1
                 End While
 
                 If tituloBool = False Then
-                    lista.Add(New Aplicacion(nombre, ejecutable, Nothing, icono, Nothing, False, categoria))
+                    lista.Add(New Aplicacion(titulo, ejecutable, Nothing, icono, Nothing, False, categoria))
                 End If
             Next
         End If

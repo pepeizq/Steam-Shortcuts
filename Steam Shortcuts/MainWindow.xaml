@@ -1,4 +1,4 @@
-﻿<Controls:MetroWindow x:Class="MainWindow"
+﻿<Controls:MetroWindow x:Name="Main" x:Class="MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -11,67 +11,218 @@
         Background="{DynamicResource MaterialDesignPaper}"
                       
         mc:Ignorable="d"
-        Title="Steam Shortcuts" MinHeight="360" Width="565" Loaded="Window_Loaded" 
+        Title="Steam Shortcuts" Height="400" Width="300" Loaded="Window_Loaded" 
         TitleCaps="False" WindowStartupLocation="CenterScreen" Icon="Imagenes/steam-256.png" 
-        ShowIconOnTitleBar="False" ShowMaxRestoreButton="False" BorderThickness="1" 
-        BorderBrush="Purple" ResizeMode="NoResize">
-
-    <Controls:MetroWindow.RightWindowCommands>
-        <Controls:WindowCommands>
-            <Button x:Name="botonFAQ" Content="FAQ" />
-            <Button x:Name="botonGreenlight" Content="Steam Greenlight" />
-        </Controls:WindowCommands>
-    </Controls:MetroWindow.RightWindowCommands>
+        ShowIconOnTitleBar="False" BorderThickness="1" BorderBrush="Purple" ResizeMode="NoResize" >
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <Grid x:Name="gridListas" Grid.Row="0" Visibility="Collapsed">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <dragablz:TabablzControl x:Name="tbControlMaestro" Grid.Row="0" BorderThickness="0,0,0,1" BorderBrush="#FF5F005F" />
-            <Button x:Name="botonCrearAccesos" Grid.Row="1" Margin="0,15,0,5" Content="Create Shortcuts" HorizontalAlignment="Center" IsEnabled="False"/>
+            <dragablz:TabablzControl x:Name="tbControlMaestro" Grid.Row="0" BorderThickness="0,0,0,1" BorderBrush="#B199C2" />
+            <Button x:Name="botonCrearAccesos" Grid.Row="1" Margin="0,15" Content="Create Shortcuts" HorizontalAlignment="Center" FontSize="15" IsEnabled="False"/>
+
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Menu Grid.Column="0">
+                    <CheckBox x:Name="cbCategoriaSteam" Grid.Column="0" Content="Add Category in Steam" FontSize="15" VerticalContentAlignment="Bottom"/>
+                </Menu>
+
+                <Menu Grid.Column="1" HorizontalAlignment="Right">
+                    <MenuItem x:Name="menuItemReportBug" Header="Report a Bug"/>
+                    <MenuItem x:Name="menuItemFAQ" Header="FAQ"/>
+                    <MenuItem x:Name="menuItemGreenlight" Header="Steam Greenlight"/>
+                    <MenuItem x:Name="menuItemWeb" Header="pepeizqapps.com"/>
+                </Menu> 
+            </Grid>
+
+            <Grid x:Name="gridListasError" Grid.Row="3" Visibility="Collapsed">
+                <Border Padding="10" Background="DarkRed">
+                    <TextBlock x:Name="tbListasError" FontSize="15" Foreground="White"/>
+                </Border>
+            </Grid> 
         </Grid>
 
         <Grid x:Name="gridCarga" Grid.Row="0">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <Grid Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" >
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
+            <Grid x:Name="gridCargaBattlenet" Grid.Row="0" Margin="10,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-                <Controls:ProgressRing Grid.Row="0" Foreground="{DynamicResource AccentColorBrush}"/>
-                <TextBlock x:Name="tbCarga" Grid.Row="1" Margin="0,20,0,0" HorizontalAlignment="Center" FontSize="15"/>
+                <Grid Grid.Column="0" Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" FontSize="15" Text="Battle.net"/>
+                    <TextBlock x:Name="tbCargaBattlenet" Grid.Row="1" FontSize="15" />
+                </Grid>
+                <Controls:ProgressRing x:Name="prCargaBattlenet" Grid.Column="1" Foreground="{DynamicResource AccentColorBrush}" Width="30" Margin="10,0,0,0" Visibility="Collapsed" />
             </Grid>
+            <Grid x:Name="gridCargaGogGalaxy" Grid.Row="1" Margin="10,0" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0" Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" FontSize="15" Text="GOG Galaxy"/>
+                    <TextBlock x:Name="tbCargaGogGalaxy" Grid.Row="1" FontSize="15" />
+                </Grid>
+                <Controls:ProgressRing x:Name="prCargaGogGalaxy" Grid.Column="1" Foreground="{DynamicResource AccentColorBrush}" Width="30" Margin="10,0,0,0" Visibility="Collapsed" />
+            </Grid>
+            <Grid x:Name="gridCargaOrigin" Grid.Row="2" Margin="10,0" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0" Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" FontSize="15" Text="Origin"/>
+                    <TextBlock x:Name="tbCargaOrigin" Grid.Row="1" FontSize="15" />
+                </Grid>
+                <Controls:ProgressRing x:Name="prCargaOrigin" Grid.Column="1" Foreground="{DynamicResource AccentColorBrush}" Width="30" Margin="10,0,0,0" Visibility="Collapsed" />
+            </Grid>
+            <Grid x:Name="gridCargaUplay" Grid.Row="3" Margin="10,0" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0" Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" FontSize="15" Text="Uplay"/>
+                    <TextBlock x:Name="tbCargaUplay" Grid.Row="1" FontSize="15" />
+                </Grid>
+                <Controls:ProgressRing x:Name="prCargaUplay" Grid.Column="1" Foreground="{DynamicResource AccentColorBrush}" Width="30" Margin="10,0,0,0" Visibility="Collapsed" />
+            </Grid>
+            <Grid x:Name="gridCargaWindowsStore" Grid.Row="4" Margin="10,0" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0" Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" FontSize="15" Text="Windows Store"/>
+                    <TextBlock x:Name="tbCargaWindowsStore" Grid.Row="1" FontSize="15" />
+                </Grid>
+                <Controls:ProgressRing x:Name="prCargaWindowsStore" Grid.Column="1" Foreground="{DynamicResource AccentColorBrush}" Width="30" Margin="10,0,0,0" Visibility="Collapsed" VerticalAlignment="Top" />
+            </Grid>
+
+            <Border Grid.Row="5" BorderBrush="#B199C2" BorderThickness="0,1,0,0">
+                <TextBlock x:Name="tbCargaCreditos" FontSize="15" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+            </Border>
         </Grid>
 
-        <Grid x:Name="gridNoApps" Grid.Row="0" Visibility="Collapsed">
-            <TextBlock FontSize="15" Text="No Apps or Games Detected" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <Grid x:Name="gridWebBrowser" Grid.Row="0" Visibility="Collapsed" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <WebBrowser x:Name="wb" Visibility="Hidden" Height="0"/>
+
+            <Grid Grid.Row="0" Margin="10,5" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="95"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock Grid.Column="0" FontSize="15" Margin="10" Text="UserName:" VerticalAlignment="Center"/>
+                <TextBox x:Name="tbReportBugNombre" Grid.Column="1" FontSize="15" Margin="10"/>
+            </Grid>
+
+            <Grid Grid.Row="1" Margin="10,5" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="95"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" FontSize="15" Margin="10" Text="Email:" VerticalAlignment="Center"/>
+                <TextBox x:Name="tbReportBugCorreo" Grid.Column="1" FontSize="15" Margin="10"/>
+            </Grid>
+
+            <Grid Grid.Row="2" Margin="10,5" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="95"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" FontSize="15" Margin="10" Text="Client:" VerticalAlignment="Center"/>
+                <ComboBox x:Name="cbReportBugClientes" Grid.Column="1" FontSize="15" Margin="10" SelectedIndex="0">
+                    <ComboBoxItem Content="Battle.net" />
+                    <ComboBoxItem Content="GOG Galaxy" />
+                    <ComboBoxItem Content="Origin" />
+                    <ComboBoxItem Content="Uplay" />
+                    <ComboBoxItem Content="Windows Store" />
+                </ComboBox> 
+            </Grid>
+
+            <Grid Grid.Row="3" Margin="10,5" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="95"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" FontSize="15" Margin="10,15,10,10" Text="Message:"/>
+                <TextBox x:Name="tbReportBugMensaje" Grid.Column="1" FontSize="15" Margin="10" AcceptsReturn="True" TextWrapping="Wrap" BorderThickness="1"/>
+            </Grid>
+
+            <Grid Grid.Row="4" Margin="10,5" HorizontalAlignment="Center" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="buttonReportBugEnviar" Grid.Column="0" Margin="10" Content="Send" IsEnabled="False"/>
+                <Button x:Name="buttonReportBugVolver" Grid.Column="1" Margin="10" Content="Back"/>
+            </Grid>             
         </Grid>
-
-        <Grid x:Name="gridPermisos" Grid.Row="1" Margin="10,20,10,0" Background="#FFA80000" Visibility="Collapsed">
-            <TextBlock x:Name="tbPermisos" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" Padding="10"/>
-        </Grid>
-
-        <Grid x:Name="gridCreditos" Grid.Row="2" Margin="10">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-
-            <CheckBox x:Name="cbCategoriaSteam" Grid.Column="0" Content="Add Category in Steam" FontSize="15" VerticalAlignment="Center" Margin="5" VerticalContentAlignment="Center"/>
-            <TextBlock x:Name="tbCreditos" Grid.Column="1" FontSize="15" VerticalAlignment="Center" Margin="5"/>
-        </Grid> 
-     </Grid>
+    </Grid>
 </Controls:MetroWindow>

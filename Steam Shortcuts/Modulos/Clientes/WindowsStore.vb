@@ -15,6 +15,7 @@ Module WindowsStore
         End If
 
         If Directory.Exists(carpetaFinal) Then
+            Log.Actualizar("Windows Store", "001 " + carpetaFinal)
             Try
                 For Each carpeta As String In Directory.GetDirectories(carpetaFinal)
                     Try
@@ -38,6 +39,8 @@ Module WindowsStore
 
                                     Dim id As String = temp3
 
+                                    Log.Actualizar("Windows Store", "002 " + id)
+
                                     If lineas.Contains("<Identity Name=") Then
                                         Dim temp4, temp5, temp6 As String
                                         Dim int4, int5, int6 As Integer
@@ -52,6 +55,8 @@ Module WindowsStore
                                         temp6 = temp5.Remove(int6, temp5.Length - int6)
 
                                         Dim identidad As String = temp6
+
+                                        Log.Actualizar("Windows Store", "003 " + identidad)
 
                                         listaApps = TerminarCargarApps(listaApps, Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\AppData\Local\Packages", carpeta, identidad, lineas, id)
 
@@ -69,7 +74,7 @@ Module WindowsStore
                     End Try
                 Next
             Catch ex As Exception
-                bw.ReportProgress(0, "/*ERRORUWP*/" + carpetaFinal)
+                bw.ReportProgress(0, "/*WINDOWSSTORE*/Add read permissions to:" + carpetaFinal)
             End Try
         End If
 
@@ -103,6 +108,9 @@ Module WindowsStore
                     Dim nombre As String = temp10.Trim
 
                     If Not nombre.Contains("ms-resource:") Then
+
+                        Log.Actualizar("Windows Store", "004 " + nombre)
+
                         Dim icono As String = SacarImagen(lineas, carpetaFicheros)
 
                         Dim colorFondo As String

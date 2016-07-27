@@ -87,6 +87,9 @@
       <HintPath>..\packages\MaterialDesignThemes.1.5.0.523\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
@@ -146,15 +149,16 @@
     <Import Include="System.Windows.Navigation" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Modulos\Battlenet.vb" />
+    <Compile Include="Modulos\Clientes\Battlenet.vb" />
     <Compile Include="Modulos\FicherosINI.vb" />
-    <Compile Include="Modulos\GOGGalaxy.vb" />
+    <Compile Include="Modulos\Clientes\GOGGalaxy.vb" />
     <Compile Include="Modulos\Iconos.vb" />
     <Compile Include="Modulos\Listado.vb" />
-    <Compile Include="Modulos\Origin.vb" />
+    <Compile Include="Modulos\Log.vb" />
+    <Compile Include="Modulos\Clientes\Origin.vb" />
     <Compile Include="Modulos\Steam.vb" />
-    <Compile Include="Modulos\Uplay.vb" />
-    <Compile Include="Modulos\WindowsStore.vb" />
+    <Compile Include="Modulos\Clientes\Uplay.vb" />
+    <Compile Include="Modulos\Clientes\WindowsStore.vb" />
     <Compile Include="My Project\AssemblyInfo.vb">
       <SubType>Code</SubType>
     </Compile>

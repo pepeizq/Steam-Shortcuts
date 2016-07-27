@@ -12,8 +12,11 @@ Module Origin
         End If
 
         If Not registroJuegos Is Nothing Then
+            Log.Actualizar("Origin", "001 " + registroJuegos.GetSubKeyNames.Count.ToString)
             For Each registro In registroJuegos.GetSubKeyNames
                 If Directory.Exists("C:\ProgramData\Origin") Then
+                    Log.Actualizar("Origin", "002 ProgramData")
+
                     Dim localizacion As String = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\" + registro, "InstallLocation", Nothing)
 
                     If localizacion = Nothing Then
@@ -25,10 +28,19 @@ Module Origin
                             localizacion = localizacion.Remove(localizacion.Length - 1, 1)
                         End If
 
-                        Dim int As Integer = localizacion.LastIndexOf("\")
-                        Dim clave As String = localizacion.Remove(0, int + 1)
+                        Dim clave As String
+
+                        If localizacion.Contains("\") Then
+                            Dim int As Integer = localizacion.LastIndexOf("\")
+                            clave = localizacion.Remove(0, int + 1)
+                        Else
+                            clave = localizacion
+                        End If
+
+                        Log.Actualizar("Origin", "003 Possible Matches")
 
                         For Each carpeta As String In Directory.GetDirectories("C:\ProgramData\Origin\LocalContent")
+                            Log.Actualizar("Origin", "004 LocalContent")
                             If carpeta.Contains(clave) Then
                                 For Each fichero As String In Directory.GetFiles(carpeta)
                                     If Not fichero.Contains("map.crc") Then
@@ -67,6 +79,8 @@ Module Origin
                                         End If
 
                                         If tituloBool = False Then
+                                            Log.Actualizar("Origin", "005 " + titulo + " " + ejecutable)
+
                                             Dim iconoRuta As String = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\" + registro, "DisplayIcon", Nothing)
 
                                             If iconoRuta = Nothing Then
