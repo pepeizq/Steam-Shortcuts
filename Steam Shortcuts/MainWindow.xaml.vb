@@ -168,15 +168,15 @@ Class MainWindow
 
         Dim booleanErrorWindowsStore As Boolean = False
 
-        'Try
-        Dim unidades() As String = Directory.GetLogicalDrives
+        Try
+            Dim unidades() As String = Directory.GetLogicalDrives
             For Each unidad As String In unidades
                 listaUWP = WindowsStore.GenerarApps(listaUWP, unidad, workerCarga)
             Next
-        'Catch ex As Exception
-        '    booleanErrorWindowsStore = True
-        '    workerCarga.ReportProgress(0, "/*WINDOWSSTORE*/Error")
-        'End Try
+        Catch ex As Exception
+            booleanErrorWindowsStore = True
+            workerCarga.ReportProgress(0, "/*WINDOWSSTORE*/Error")
+        End Try
 
         Log.Actualizar(Nothing, "Windows Store List: " + listaUWP.Count.ToString + Environment.NewLine)
 
@@ -402,7 +402,7 @@ Class MainWindow
             Dim lv As ListView = tabitem.Content
 
             For Each grid As Grid In lv.Items
-                Dim cb As CheckBox = grid.Children.Item(2)
+                Dim cb As CheckBox = grid.Children.Item(0)
                 cb.IsChecked = False
             Next
         Next
